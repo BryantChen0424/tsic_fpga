@@ -20,4 +20,4 @@ prog_flash: build
 
 
 clean:
-	rm -rf $(filename).blif $(filename).asc $(filename).bin
+	rm -rf $(filename).blif $(filename).asc $(filename).bin $(filename).json
