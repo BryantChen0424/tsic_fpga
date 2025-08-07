@@ -57,6 +57,7 @@ reg [RBUF_ADDR_WIDTH:0] _b = 0;
 reg [RBUF_ADDR_WIDTH:0] _e = 0;
 
 reg rbuf_empty;
+// reg flag = 0;
 
 always @(*) begin
     rbuf_empty = _b == _e;
@@ -66,10 +67,11 @@ end
 integer i;
 
 always @(posedge clk) begin
-    if (!rbuf_empty && !tx1_busy) begin
+    if (!tx1_start && !rbuf_empty && !tx1_busy) begin
         tx1_start <= 1;
         tx1_data <= rbuf[_b];
         _b <= _b + 1;
+        // flag <= 1;
     end
     else begin
         tx1_start <= 0;

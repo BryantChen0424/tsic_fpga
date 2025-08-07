@@ -47,8 +47,8 @@ uart_rx_buf #(clk_freq, baud) rxb (
     .empty(rx_empty)
 );
 
-reg put;
-reg [7:0] tx_data;
+reg put = 0;
+reg [7:0] tx_data = 0;
 wire tx_empty;
 uart_tx_buf #(clk_freq, baud) txb (
 	.clk(clk),
@@ -59,44 +59,81 @@ uart_tx_buf #(clk_freq, baud) txb (
 );
 
 localparam 
-    S_RESET = 0,
-    S_R = 1,
-    S_T = 2;
+    S_RST       = 4'b0000,
+    S_R         = 4'b0001,
+    S_T_slash_n = 4'b1001,
+    S_T_prompt1 = 4'b1010,
+    S_T_prompt2 = 4'b1011,
+    S_T_back1   = 4'b1100,
+    S_T_back2   = 4'b1101,
+    S_T_last    = 4'b1000;
 
-reg [31:0] rst_cnt;
 
 
 // ctrl signals
-reg [1:0] ctrl_S = S_R;
-reg [7:0] data = 0;
+reg [3:0] ctrl_S = S_RST;
+reg [15:0] rst_cnt = 0;
 
 always @(*) begin
-    get = 1;
-    put = ctrl_S == S_T;
-    tx_data = data;
+    get = ctrl_S == S_R;
 end
 
 always @(posedge clk) begin
+    rst_cnt <= rst_cnt + 1;
     case (ctrl_S)
-        // S_RESET: begin
-        //     if (rst_cnt > 12000000) begin
-        //         ctrl_S <= S_R;
-        //     end
-        //     else begin
-        //         ctrl_S <= S_RESET;
-        //     end
-        // end
-        S_R: begin
-            if (get && ~rx_empty) begin
-                data <= rx_data;
-                ctrl_S <= S_T;
+        S_RST: begin
+            if (rst_cnt[15]) begin
+                put <= 1;
+                tx_data <= "$";
+                ctrl_S <= S_T_prompt2;
             end
         end
-        S_T: begin
-            ctrl_S <= S_R;
+        S_R: begin
+            if (~rx_empty) begin
+                if (rx_data == "\n" || rx_data == "\r") begin
+                    tx_data <= "\n";
+                    ctrl_S <= S_T_slash_n;
+                end
+                else if (rx_data == 8'h08) begin
+                    tx_data <= 8'h08;
+                    ctrl_S <= S_T_back1;
+                end
+                else begin
+                    tx_data <= rx_data;
+                    ctrl_S <= S_T_last;
+                end
+                put <= 1;
+            end
+        end
+        S_T_slash_n: begin
+            tx_data <= "\r";
+            ctrl_S <= S_T_prompt1;
+        end
+        S_T_prompt1: begin
+            tx_data <= "$";
+            ctrl_S <= S_T_prompt2;
+        end
+        S_T_prompt2: begin
+            tx_data <= " ";
+            ctrl_S <= S_T_last;
+        end
+        S_T_back1: begin
+            tx_data <= " ";
+            ctrl_S <= S_T_back2;
+        end
+        S_T_back2: begin
+            tx_data <= 8'h08;
+            ctrl_S <= S_T_last;
+        end
+        S_T_last: begin
+            if (tx_empty) begin
+                tx_data <= 0;
+                ctrl_S <= S_R;
+            end
+            put <= 0;
         end
         default: begin
-            data <= 0;
+            tx_data <= 0;
             ctrl_S <= S_R;
         end
     endcase
