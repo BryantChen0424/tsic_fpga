@@ -24,14 +24,18 @@ module uart_terminal_handler (
 	input  clk,
 	input RX,
     output TX,
-	
-    output reg [7:0] bram_addr,
-    output reg [7:0] bram_din,
-    input  [7:0] bram_dout,
-    output reg bram_we,
 
-    output reg in_burst_done,
-    input out_burst_start  // when high, start sending content from bram[128] until reaching a 8h'255
+    output reg w_ready,
+    input w_valid,
+    input [7:0] w_data,
+    input [7:0] w_addr,
+    input w_last,
+    
+    output reg r_ready,
+    input r_valid,
+    output reg [7:0] r_data,
+    input [7:0] r_addr,
+    output reg r_last
 );
 
 
@@ -66,6 +70,21 @@ uart_tx_buf #(clk_freq, baud) txb (
     .empty(tx_empty)
 );
 
+localparam WIDTH = 8;
+localparam LEN = 256;
+
+reg [log2(LEN-1):0] bram_addr = 0;
+reg [WIDTH-1:0] bram_din = 0;
+wire [WIDTH-1:0] bram_dout;
+reg bram_we = 0;
+bram #(WIDTH, LEN) iomsg (
+    .clk(clk),
+    .addr(bram_addr),
+    .din(bram_din),
+    .dout(bram_dout),
+    .we(bram_we)
+);
+
 localparam 
     S_RST       = 4'b0000,
     S_R         = 4'b0001,
@@ -85,6 +104,7 @@ reg [7:0] line_len = 0;
 
 always @(*) begin
     get = ctrl_S == S_R;
+    out_ready = ctrl_S != S_RST;
 end
 
 always @(posedge clk) begin
