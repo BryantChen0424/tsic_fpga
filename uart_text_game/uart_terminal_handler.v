@@ -20,12 +20,20 @@
 `include "uart_rx_buf.v"
 `include "uart_tx_buf.v"
 
-module top (
+module uart_terminal_handler (
 	input  clk,
 	input RX,
     output TX,
-	output LED
+	
+    output reg [7:0] bram_addr,
+    output reg [7:0] bram_din,
+    input  [7:0] bram_dout,
+    output reg bram_we,
+
+    output reg in_burst_done,
+    input out_burst_start  // when high, start sending content from bram[128] until reaching a 8h'255
 );
+
 
 function integer log2(input integer v); begin
 	log2 = 0;
