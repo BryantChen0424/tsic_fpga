@@ -17,10 +17,7 @@
  *
  */
 
-`ifndef _uart_tx_v_
-`define _uart_tx_v_
 
-`include "uart_baud_tick_gen.v"
 
 module uart_tx #(
 	parameter clk_freq = 12000000,
@@ -86,4 +83,3 @@ end
 
 endmodule
 
-`endif // _uart_tx_v_

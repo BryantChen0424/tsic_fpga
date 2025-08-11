@@ -27,8 +27,6 @@ module top (
 	output LED
 );
 
-wire clk_42mhz;
-
 /* local parameters */
 localparam clk_freq = 12_000_000; // 12MHz
 localparam baud = 115200;

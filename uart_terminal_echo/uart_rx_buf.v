@@ -17,7 +17,6 @@
  *
  */
 
-`include "uart_rx.v"
 
 // without ring buffer overwrite checking
 module uart_rx_buf #(

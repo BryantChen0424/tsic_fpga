@@ -17,9 +17,6 @@
  *
  */
 
-`ifndef _uart_baud_tick_gen_v_
-`define _uart_baud_tick_gen_v_
-
 /***
  * This module generates a bit baud tick multiplied by the oversampling parameter.
  */
@@ -62,4 +59,3 @@ end
 
 endmodule
 
-`endif // _uart_baud_tick_gen_v_
