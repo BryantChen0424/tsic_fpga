@@ -3,6 +3,9 @@
  *
  *  Copyright (C) 2018 Piotr Esden-Tempski <piotr@esden.net>
  *
+ *  Modified work
+ *  Copyright (C) 2025 Bryant Chen <bryant90424@gmail.com>
+ *
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above
  *  copyright notice and this permission notice appear in all copies.
@@ -23,11 +26,11 @@ module uart_rx #(
 	parameter baud = 115200,
 	parameter oversampling = 8
 )(
-	input clk,
-	input rx,
-	output reg rx_ready,
-	output reg [7:0] rx_data, 
-	output reg rx_idle,
+	input clk, // system clock
+	input rx, // RX signal
+	output reg rx_ready, // catch a whole byte
+	output reg [7:0] rx_data, // the byte just be catched
+	output reg rx_idle, // high when the packet gap is longer than a bit transimission window
 	output reg rx_eop = 0 // asserted for one clock cycle when an end of packet has been detected
 );
 

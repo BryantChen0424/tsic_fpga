@@ -1,7 +1,7 @@
 /*
- *  icebreaker examples - Async uart mirror using pll
+ *  icebreaker examples - rx ring buffer
  *
- *  Copyright (C) 2018 Piotr Esden-Tempski <piotr@esden.net>
+ *  Copyright (C) 2025 Bryant Chen <bryant90424@gmail.com>
  *
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above

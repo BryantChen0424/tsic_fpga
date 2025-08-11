@@ -3,6 +3,9 @@
  *
  *  Copyright (C) 2018 Piotr Esden-Tempski <piotr@esden.net>
  *
+ *  Modified work
+ *  Copyright (C) 2025 Bryant Chen <bryant90424@gmail.com>
+ *
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above
  *  copyright notice and this permission notice appear in all copies.
@@ -21,11 +24,11 @@ module uart_tx #(
 	parameter clk_freq = 12000000,
 	parameter baud = 115200
 )(
-	input clk,
-	input tx_start,
-	input [7:0] tx_data,
-	output reg tx,
-	output reg tx_busy
+	input clk, // system clock
+	input tx_start, // trigger a byte tansmission
+	input [7:0] tx_data, // the byte
+	output reg tx, // the controled tx signal
+	output reg tx_busy // if still handling the last request
 );
 
 localparam
