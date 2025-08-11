@@ -17,9 +17,6 @@
  *
  */
 
-`include "uart_rx.v"
-`include "uart_tx.v"
-
 module top (
 	input  clk,
 	input RX,

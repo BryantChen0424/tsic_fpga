@@ -1,5 +1,3 @@
-`include "uart_tx.v"
-
 module top (
     // input hardware clock (12 MHz)
     clk,
@@ -23,7 +21,6 @@ module top (
     reg tx_start = 0;
     wire tx_busy;
     uart_tx  #(12000000, 115200) transmitter (
-        // 9600 baud rate clock
         .clk (clk),
         // trigger a UART transmit on baud clock
         .tx_start (tx_start),

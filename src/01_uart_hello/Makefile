@@ -10,7 +10,7 @@ PKG      := cm36      # Package (36-pin)
 FREQ     := 48        # Target frequency for P&R (MHz)
 
 # Verilog source files (all .v files in current directory)
-SOURCES  := *.v
+SOURCES  := ./*.v ../../lib/uart/*.v
 
 # Detect iCELink mount path (for flashing)
 ICELINK_DIR := $(shell df | grep iCELink | awk '{print $$6}')
