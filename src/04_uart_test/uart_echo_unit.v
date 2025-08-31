@@ -34,7 +34,7 @@ module uart_echo_unit #(
     output reg [7:0] tx_data = 0,
     input tx_busy,
 
-    input get_a_cmd,
+    input en,
     output reg idle
 );
 
@@ -101,126 +101,124 @@ localparam
     S_T_last    = 8;
 
 // ctrl signals
-reg [3:0] ctrl_S = S_IDLE;
-// reg [15:0] rst_cnt = 0;
+reg [3:0] ctrl_S = S_R;
 reg [7:0] line_len = 0;
 
 always @(*) begin
-    get = ctrl_S == S_R;
+    get = (ctrl_S == S_R) && en;
 end
 
 always @(posedge clk) begin
-    // rst_cnt <= rst_cnt + 1;
-    case (ctrl_S)
-        // S_RST: begin
-        //     if (rst_cnt[15]) begin
-        //         ctrl_S <= S_IDLE;
-        //     end
-        // end
-        S_IDLE: begin
-            tx_start <= 0;
-            if (get_a_cmd) begin
-                ctrl_S <= S_T_prompt1;
-            end
-        end
-        S_R: begin
-            if (~rx_empty) begin
-                // processing special cases
-                if (rbuf_data == "\n" || rbuf_data == "\r") begin
-                    tx_start <= 1;
-                    tx_data <= "\n";
-                    line_len <= 0;
-                    ctrl_S <= S_T_slash_n;
+    if (en) begin
+        case (ctrl_S)
+            // S_IDLE: begin
+            //     tx_start <= 0;
+            //     if (get_a_cmd) begin
+            //         ctrl_S <= S_R;
+            //     end
+            // end
+            S_R: begin
+                if (tx_start) begin
+                    tx_start <= 0;
                 end
-                else if (rbuf_data == 8'h08) begin
-                    if (line_len > 0) begin
+                else if (~tx_busy && ~rx_empty) begin
+                    // processing special cases
+                    if (rbuf_data == "\n" || rbuf_data == "\r") begin
                         tx_start <= 1;
-                        tx_data <= 8'h08;
-                        line_len <= line_len - 1;
-                        ctrl_S <= S_T_back1;
+                        tx_data <= "\n";
+                        line_len <= 0;
+                        ctrl_S <= S_T_slash_n;
                     end
-                    else begin
+                    else if (rbuf_data == 8'h08) begin
+                        if (line_len > 0) begin
+                            tx_start <= 1;
+                            tx_data <= 8'h08;
+                            line_len <= line_len - 1;
+                            ctrl_S <= S_T_back1;
+                        end
+                        else begin
+                            ctrl_S <= S_R;
+                        end
+                    end
+                    else if (rbuf_data == 8'h1B) begin // ignore esc
                         ctrl_S <= S_R;
                     end
+                    else begin
+                        tx_start <= 1;
+                        tx_data <= rbuf_data;
+                        line_len <= line_len + 1;
+                        ctrl_S <= S_T_last;
+                    end
                 end
-                else if (rbuf_data == 8'h1B) begin // ignore esc
+            end
+            S_T_slash_n: begin
+                if (tx_start) begin
+                    tx_start <= 0;
+                end
+                else if (~tx_busy) begin
+                    tx_start <= 1;
+                    tx_data <= "\r";
                     ctrl_S <= S_R;
                 end
-                else begin
+            end
+            // S_T_prompt1: begin
+            //     if (tx_start) begin
+            //         tx_start <= 0;
+            //     end
+            //     else if (~tx_busy) begin
+            //         tx_start <= 1;
+            //         tx_data <= "$";
+            //         ctrl_S <= S_T_prompt2;
+            //     end
+            // end
+            // S_T_prompt2: begin
+            //     if (tx_start) begin
+            //         tx_start <= 0;
+            //     end
+            //     else if (~tx_busy) begin
+            //         tx_start <= 1;
+            //         tx_data <= " ";
+            //         ctrl_S <= S_T_last;
+            //     end
+            // end
+            S_T_back1: begin
+                if (tx_start) begin
+                    tx_start <= 0;
+                end
+                else if (~tx_busy) begin
                     tx_start <= 1;
-                    tx_data <= rbuf_data;
-                    line_len <= line_len + 1;
+                    tx_data <= " ";
+                    ctrl_S <= S_T_back2;
+                end
+            end
+            S_T_back2: begin
+                if (tx_start) begin
+                    tx_start <= 0;
+                end
+                else if (~tx_busy) begin
+                    tx_start <= 1;
+                    tx_data <= 8'h08;
                     ctrl_S <= S_T_last;
                 end
             end
-        end
-        S_T_slash_n: begin
-            if (tx_start) begin
-                tx_start <= 0;
+            S_T_last: begin
+                if (tx_start) begin
+                    tx_start <= 0;
+                end
+                else if (~tx_busy) begin
+                    ctrl_S <= S_R;
+                end
             end
-            else if (~tx_busy) begin
-                tx_start <= 1;
-                tx_data <= "\r";
-                ctrl_S <= S_IDLE;
-            end
-        end
-        S_T_prompt1: begin
-            if (tx_start) begin
-                tx_start <= 0;
-            end
-            else if (~tx_busy) begin
-                tx_start <= 1;
-                tx_data <= "$";
-                ctrl_S <= S_T_prompt2;
-            end
-        end
-        S_T_prompt2: begin
-            if (tx_start) begin
-                tx_start <= 0;
-            end
-            else if (~tx_busy) begin
-                tx_start <= 1;
-                tx_data <= " ";
-                ctrl_S <= S_T_last;
-            end
-        end
-        S_T_back1: begin
-            if (tx_start) begin
-                tx_start <= 0;
-            end
-            else if (~tx_busy) begin
-                tx_start <= 1;
-                tx_data <= " ";
-                ctrl_S <= S_T_back2;
-            end
-        end
-        S_T_back2: begin
-            if (tx_start) begin
-                tx_start <= 0;
-            end
-            else if (~tx_busy) begin
-                tx_start <= 1;
-                tx_data <= 8'h08;
-                ctrl_S <= S_T_last;
-            end
-        end
-        S_T_last: begin
-            if (tx_start) begin
-                tx_start <= 0;
-            end
-            else if (~tx_busy) begin
+            default: begin
+                tx_data <= 0;
                 ctrl_S <= S_R;
             end
-        end
-        default: begin
-            tx_data <= 0;
-            ctrl_S <= S_R;
-        end
-    endcase
+        endcase
+    end
 end
 
 always @(*) begin
-    idle = rx_empty && ctrl_S == S_IDLE;
+    idle = rx_empty && ctrl_S == S_R;
 end
 
 endmodule
