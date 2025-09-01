@@ -26,9 +26,11 @@ module uart_cmd_handler #(
     parameter RXSTR_BASE = 0,
     parameter TXSTR_BASE = 128,
     parameter CLK_FREQ = 12000000,
-    parameter BAUD = 115200
+    parameter BAUD = 115200,
+    parameter MSG_START = 0
 )(
 	clk,
+    rst,
 	RX,
     TX,
 
@@ -49,6 +51,8 @@ function integer log2(input integer v); begin
 end endfunction
 
 input clk;
+input rst;
+
 input RX;
 output reg TX;
 
@@ -188,119 +192,117 @@ end
 
 ////////////////
 
-reg [15:0] rst_cnt = 0;
 reg [log2(PROMPT_LEN):0] prompt_cnt = 0;
 
 always @(posedge clk) begin
-    rst_cnt <= rst_cnt + 1;
-    case (S)
-        S_rst: begin
-            if (rst_cnt[15]) begin
-                S <= S_prompt;
-            end
-        end
-        S_prompt: begin
-            if (~tx_flag) begin
-                self_tx_start <= 1;
-                self_tx_data <= prompt_head;
-                tx_flag <= 1;
-
-                prompt_cnt <= prompt_cnt + 1;
-                prompt_str <= (prompt_str << 8) | prompt_head;
-            end
-            else begin
-                if (self_tx_start) begin
-                    self_tx_start <= 0;
-                    self_tx_data <= 0;
-                end
-                else if (~self_tx_busy) begin
-                    tx_flag <= 0;
-                    if (prompt_cnt == PROMPT_LEN) begin
-                        prompt_cnt <= 0;
-                        echo_en <= 1;
-
-                        S <= S_Rp;
-                    end
-                end
-            end
-        end
-        S_Rp: begin
-            S <= S_R;
-        end
-        S_R: begin
-            if (rx_ready) begin
-                if (echo_rx_data == 8'h08) begin
-                    rx_line_len <= rx_line_len - 1;
-                end
-                else begin
-                    addr <= rx_line_len;
-                    din <= echo_rx_data;
-                    we <= 1;
-                    rx_line_len <= rx_line_len + 1;
-                end
-            end
-            else begin
-                din <= 0;
-                we <= 0;
-            end
-
-            if (din == "\r" || din == "\n") begin
-                S <= S_Rf;
-            end
-        end
-        S_Rf: begin
-            cmd_len <= rx_line_len;
-            if (echo_idle) begin
-                echo_en <= 0;
-                cmd_valid <= 1;
-
-                rx_line_len <= 0;
-                S <= S_NL;
-            end
-        end
-        S_NL: begin
-            cmd_valid <= 0;
-            cmd_len <= 0;
-            if (msg_valid) begin
-                addr <= TXSTR_BASE;
-                din <= 0;
-                we <= 0;
-
-                tx_line_len <= msg_len;
-                nl2tx_flag <= 0;
-                S <= S_T;
-            end
-        end
-        S_T: begin
-            if (~nl2tx_flag) begin
-                nl2tx_flag <= 1;
-            end
-            else begin
+    if (rst) begin
+        S <= MSG_START ? S_NL : S_prompt;
+    end
+    else begin
+        case (S)
+            S_prompt: begin
                 if (~tx_flag) begin
-                    resp_tx_start <= 1;
-                    resp_tx_data <= dout;
+                    self_tx_start <= 1;
+                    self_tx_data <= prompt_head;
                     tx_flag <= 1;
 
-                    addr <= addr + 1;
+                    prompt_cnt <= prompt_cnt + 1;
+                    prompt_str <= (prompt_str << 8) | prompt_head;
                 end
                 else begin
-                    if (resp_tx_start) begin
-                        resp_tx_start <= 0;
-                        resp_tx_data <= 0;
+                    if (self_tx_start) begin
+                        self_tx_start <= 0;
+                        self_tx_data <= 0;
                     end
-                    else if (~resp_tx_busy) begin
+                    else if (~self_tx_busy) begin
                         tx_flag <= 0;
-                        if (addr == tx_line_len + TXSTR_BASE) begin
-                            S <= S_prompt;
+                        if (prompt_cnt == PROMPT_LEN) begin
+                            prompt_cnt <= 0;
+                            echo_en <= 1;
+
+                            S <= S_Rp;
                         end
                     end
                 end
             end
-        end
-        default: begin
-            
-        end
-    endcase
+            S_Rp: begin
+                S <= S_R;
+            end
+            S_R: begin
+                if (rx_ready) begin
+                    if (echo_rx_data == 8'h08) begin
+                        rx_line_len <= rx_line_len - 1;
+                    end
+                    else begin
+                        addr <= rx_line_len;
+                        din <= echo_rx_data;
+                        we <= 1;
+                        rx_line_len <= rx_line_len + 1;
+                    end
+                end
+                else begin
+                    din <= 0;
+                    we <= 0;
+                end
+
+                if (din == "\r" || din == "\n") begin
+                    S <= S_Rf;
+                end
+            end
+            S_Rf: begin
+                cmd_len <= rx_line_len - 1;
+                if (echo_idle) begin
+                    echo_en <= 0;
+                    cmd_valid <= 1;
+
+                    rx_line_len <= 0;
+                    S <= S_NL;
+                end
+            end
+            S_NL: begin
+                cmd_valid <= 0;
+                cmd_len <= 0;
+                if (msg_valid) begin
+                    addr <= TXSTR_BASE;
+                    din <= 0;
+                    we <= 0;
+
+                    tx_line_len <= msg_len;
+                    nl2tx_flag <= 0;
+                    S <= S_T;
+                end
+            end
+            S_T: begin
+                if (~nl2tx_flag) begin
+                    nl2tx_flag <= 1;
+                end
+                else begin
+                    if (~tx_flag) begin
+                        resp_tx_start <= 1;
+                        resp_tx_data <= dout;
+                        tx_flag <= 1;
+
+                        addr <= addr + 1;
+                    end
+                    else begin
+                        if (resp_tx_start) begin
+                            resp_tx_start <= 0;
+                            resp_tx_data <= 0;
+                        end
+                        else if (~resp_tx_busy) begin
+                            tx_flag <= 0;
+                            if (addr == tx_line_len + TXSTR_BASE) begin
+                                S <= S_prompt;
+                            end
+                        end
+                    end
+                end
+            end
+            default: begin
+                
+            end
+        endcase
+    end
     
 end
 

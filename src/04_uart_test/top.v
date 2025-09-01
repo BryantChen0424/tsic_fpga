@@ -4,6 +4,8 @@ module top (
     output reg TX
 );
 
+localparam MSG_START = 1;
+
 function integer log2(input integer v); begin
 	log2 = 0;
 	while(v >> log2) log2 = log2 + 1;
@@ -12,6 +14,12 @@ end endfunction
 localparam WIDTH = 8;
 localparam LEN = 256;
 localparam TXSTR_BASE = LEN/2;
+
+localparam RST_CNT_MSB = 7;
+
+reg [RST_CNT_MSB:0] rst_cnt;
+reg rst;
+reg rst_flag;
 
 reg [log2(LEN-1):0] addr;
 reg [WIDTH-1:0] din;
@@ -39,9 +47,11 @@ wire uch_we;
 uart_cmd_handler #(
     .WIDTH(WIDTH),
     .LEN(LEN),
-    .TXSTR_BASE(TXSTR_BASE)
+    .TXSTR_BASE(TXSTR_BASE),
+    .MSG_START(MSG_START)
 ) uch (
     .clk(clk),
+    .rst(rst),
 
     .RX(RX),
     .TX(TX),
@@ -64,9 +74,11 @@ wire umc_we;
 
 uart_msg_core #(
     .WIDTH(WIDTH),
-    .LEN(LEN)
+    .LEN(LEN - TXSTR_BASE),
+    .MSG_START(MSG_START)
 ) umc (
     .clk(clk),
+    .rst(rst),
 
     .cmd_valid(cmd_valid),
     .cmd_len(cmd_len),
@@ -107,21 +119,29 @@ always @(*) begin
 end
 
 always @(posedge clk) begin
-    case (S)
-        S_CMD: begin
-            if (cmd_valid) begin
-                S <= S_MSG;
+    rst_cnt <= rst_cnt + 1;
+    rst <= rst_cnt[RST_CNT_MSB] & (~rst_flag);
+    rst_flag <= rst_cnt[RST_CNT_MSB] | rst_flag;
+    if (rst) begin
+        S <= MSG_START ? S_MSG : S_CMD;
+    end
+    else begin
+        case (S)
+            S_CMD: begin
+                if (cmd_valid) begin
+                    S <= S_MSG;
+                end
             end
-        end
-        S_MSG: begin
-            if (msg_valid) begin
-                S <= S_CMD;
+            S_MSG: begin
+                if (msg_valid) begin
+                    S <= S_CMD;
+                end
             end
-        end
-        default: begin
-            
-        end
-    endcase
+            default: begin
+                
+            end
+        endcase
+    end
 end
 
 endmodule
