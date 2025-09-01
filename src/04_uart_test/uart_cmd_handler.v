@@ -33,6 +33,7 @@ module uart_cmd_handler #(
     TX,
 
     cmd_valid,
+    cmd_len,
     msg_valid,
     msg_len,
 
@@ -52,6 +53,7 @@ input RX;
 output reg TX;
 
 output reg cmd_valid = 1;
+output reg [log2(LEN-1):0] cmd_len;
 input msg_valid;
 input [log2(LEN-1):0] msg_len;
 
@@ -227,11 +229,15 @@ always @(posedge clk) begin
         end
         S_R: begin
             if (rx_ready) begin
-                addr <= rx_line_len;
-                din <= echo_rx_data;
-                we <= 1;
-
-                rx_line_len <= rx_line_len + 1;
+                if (echo_rx_data == 8'h08) begin
+                    rx_line_len <= rx_line_len - 1;
+                end
+                else begin
+                    addr <= rx_line_len;
+                    din <= echo_rx_data;
+                    we <= 1;
+                    rx_line_len <= rx_line_len + 1;
+                end
             end
             else begin
                 din <= 0;
@@ -241,48 +247,20 @@ always @(posedge clk) begin
             if (din == "\r" || din == "\n") begin
                 S <= S_Rf;
             end
-
-            // tx_line_len <= 0;
         end
         S_Rf: begin
+            cmd_len <= rx_line_len;
             if (echo_idle) begin
                 echo_en <= 0;
                 cmd_valid <= 1;
 
+                rx_line_len <= 0;
                 S <= S_NL;
             end
         end
         S_NL: begin
-            // if (tx_line_len == 30) begin
-            //     addr <= TXSTR_BASE;
-            //     din <= 0;
-            //     we <= 0;
-
-            //     nl2tx_flag <= 0;
-            //     S <= S_T;
-            // end
-            // else if (tx_line_len == 29) begin
-            //     addr <= tx_line_len + TXSTR_BASE;
-            //     din <= "\r";
-            //     we <= 1;
-
-            //     tx_line_len <= tx_line_len + 1;
-            // end
-            // else if (tx_line_len == 28) begin
-            //     addr <= tx_line_len + TXSTR_BASE;
-            //     din <= "\n";
-            //     we <= 1;
-
-            //     tx_line_len <= tx_line_len + 1;
-            // end
-            // else begin
-            //     addr <= tx_line_len + TXSTR_BASE;
-            //     din <= tx_line_len + 64;
-            //     we <= 1;
-
-            //     tx_line_len <= tx_line_len + 1;
-            // end
             cmd_valid <= 0;
+            cmd_len <= 0;
             if (msg_valid) begin
                 addr <= TXSTR_BASE;
                 din <= 0;
