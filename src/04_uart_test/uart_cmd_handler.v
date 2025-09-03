@@ -57,7 +57,7 @@ input RX;
 output reg TX;
 
 output reg cmd_valid = 1;
-output reg [log2(LEN-1):0] cmd_len;
+output reg [log2(LEN-1):0] cmd_len = 0;
 input msg_valid;
 input [log2(LEN-1):0] msg_len;
 
@@ -192,11 +192,11 @@ end
 
 ////////////////
 
-reg [log2(PROMPT_LEN):0] prompt_cnt = 0;
+reg [log2(LEN-1):0] str_cnt = 0;
 
 always @(posedge clk) begin
     if (rst) begin
-        S <= MSG_START ? S_NL : S_prompt;
+        S <= MSG_START ? S_Rf : S_prompt;
     end
     else begin
         case (S)
@@ -206,7 +206,7 @@ always @(posedge clk) begin
                     self_tx_data <= prompt_head;
                     tx_flag <= 1;
 
-                    prompt_cnt <= prompt_cnt + 1;
+                    str_cnt <= str_cnt + 1;
                     prompt_str <= (prompt_str << 8) | prompt_head;
                 end
                 else begin
@@ -216,8 +216,8 @@ always @(posedge clk) begin
                     end
                     else if (~self_tx_busy) begin
                         tx_flag <= 0;
-                        if (prompt_cnt == PROMPT_LEN) begin
-                            prompt_cnt <= 0;
+                        if (str_cnt == PROMPT_LEN) begin
+                            str_cnt <= 0;
                             echo_en <= 1;
 
                             S <= S_Rp;
@@ -251,7 +251,7 @@ always @(posedge clk) begin
             end
             S_Rf: begin
                 cmd_len <= rx_line_len - 1;
-                if (echo_idle) begin
+                if (echo_idle && ~echo_tx_busy && ~echo_tx_start) begin
                     echo_en <= 0;
                     cmd_valid <= 1;
 
@@ -262,27 +262,28 @@ always @(posedge clk) begin
             S_NL: begin
                 cmd_valid <= 0;
                 cmd_len <= 0;
+                addr <= TXSTR_BASE;
+                tx_line_len <= msg_len;
+                nl2tx_flag <= 0;
+                tx_flag <= 0;
                 if (msg_valid) begin
-                    addr <= TXSTR_BASE;
                     din <= 0;
                     we <= 0;
 
-                    tx_line_len <= msg_len;
-                    nl2tx_flag <= 0;
                     S <= S_T;
                 end
             end
             S_T: begin
-                if (~nl2tx_flag) begin
+                if (~nl2tx_flag) begin /// ok
                     nl2tx_flag <= 1;
+                    tx_flag <= 0;
                 end
                 else begin
                     if (~tx_flag) begin
+                        addr <= addr + 1;
                         resp_tx_start <= 1;
                         resp_tx_data <= dout;
                         tx_flag <= 1;
-
-                        addr <= addr + 1;
                     end
                     else begin
                         if (resp_tx_start) begin
@@ -297,6 +298,7 @@ always @(posedge clk) begin
                         end
                     end
                 end
+                // 
             end
             default: begin
                 

@@ -13,13 +13,12 @@ end endfunction
 
 localparam WIDTH = 8;
 localparam LEN = 256;
-localparam TXSTR_BASE = LEN/2;
+localparam TXSTR_BASE = 128;
 
-localparam RST_CNT_MSB = 7;
+localparam RST_CNT_MSB = 15;
 
-reg [RST_CNT_MSB:0] rst_cnt;
-reg rst;
-reg rst_flag;
+reg [RST_CNT_MSB:0] rst_cnt = 0;
+reg rst = 1;
 
 reg [log2(LEN-1):0] addr;
 reg [WIDTH-1:0] din;
@@ -74,7 +73,7 @@ wire umc_we;
 
 uart_msg_core #(
     .WIDTH(WIDTH),
-    .LEN(LEN - TXSTR_BASE),
+    .LEN(LEN),
     .MSG_START(MSG_START)
 ) umc (
     .clk(clk),
@@ -94,7 +93,7 @@ uart_msg_core #(
 localparam S_CMD = 0;
 localparam S_MSG = 1;
 
-reg S = S_CMD;
+reg S;
 
 always @(*) begin
     uch_dout = dout;
@@ -120,10 +119,10 @@ end
 
 always @(posedge clk) begin
     rst_cnt <= rst_cnt + 1;
-    rst <= rst_cnt[RST_CNT_MSB] & (~rst_flag);
-    rst_flag <= rst_cnt[RST_CNT_MSB] | rst_flag;
+    rst <= ~rst_cnt[RST_CNT_MSB] & rst;
+    // rst <= 0;
     if (rst) begin
-        S <= MSG_START ? S_MSG : S_CMD;
+        S <= S_CMD;
     end
     else begin
         case (S)

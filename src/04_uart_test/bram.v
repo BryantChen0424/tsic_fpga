@@ -22,6 +22,13 @@ input we;
 
 reg [7:0] mem [0:LEN-1]; // 16 KB
 
+integer i;
+initial begin
+    for (i = 0; i < LEN; i = i + 1) begin
+        mem[i] = 8'hff;
+    end
+end
+
 always @(posedge clk) begin
     if (we)
         mem[addr] <= din;

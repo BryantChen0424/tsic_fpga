@@ -161,26 +161,6 @@ always @(posedge clk) begin
                     ctrl_S <= S_R;
                 end
             end
-            // S_T_prompt1: begin
-            //     if (tx_start) begin
-            //         tx_start <= 0;
-            //     end
-            //     else if (~tx_busy) begin
-            //         tx_start <= 1;
-            //         tx_data <= "$";
-            //         ctrl_S <= S_T_prompt2;
-            //     end
-            // end
-            // S_T_prompt2: begin
-            //     if (tx_start) begin
-            //         tx_start <= 0;
-            //     end
-            //     else if (~tx_busy) begin
-            //         tx_start <= 1;
-            //         tx_data <= " ";
-            //         ctrl_S <= S_T_last;
-            //     end
-            // end
             S_T_back1: begin
                 if (tx_start) begin
                     tx_start <= 0;
