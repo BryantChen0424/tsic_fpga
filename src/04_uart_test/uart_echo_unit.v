@@ -198,7 +198,7 @@ always @(posedge clk) begin
 end
 
 always @(*) begin
-    idle = rx_empty && ctrl_S == S_R;
+    idle = rx_empty && ctrl_S == S_R && ~tx_busy && ~tx_start;
 end
 
 endmodule

@@ -71,6 +71,8 @@ wire [WIDTH-1:0] umc_din;
 reg [WIDTH-1:0] umc_dout;
 wire umc_we;
 
+wire rw_mode;
+
 uart_msg_core #(
     .WIDTH(WIDTH),
     .LEN(LEN),
@@ -83,6 +85,8 @@ uart_msg_core #(
     .cmd_len(cmd_len),
     .msg_valid(msg_valid),
     .msg_len(msg_len),
+
+    .rw_mode(rw_mode),
 
     .addr(umc_addr),
     .din(umc_din),
@@ -105,7 +109,7 @@ always @(*) begin
             we = uch_we;
         end
         S_MSG: begin
-            addr = umc_addr + TXSTR_BASE;
+            addr = rw_mode ? umc_addr + TXSTR_BASE : umc_addr;
             din = umc_din;
             we = umc_we;
         end

@@ -6,161 +6,175 @@ Info: constrained 'TX' to bel 'X6/Y17/io1'
 Info: Packing constants..
 Info: Packing IOs..
 Info: Packing LUT-FFs..
-Info:      230 LCs used as LUT4 only
-Info:      163 LCs used as LUT4 and DFF
+Info:      374 LCs used as LUT4 only
+Info:      168 LCs used as LUT4 and DFF
 Info: Packing non-LUT FFs..
-Info:      128 LCs used as DFF only
+Info:      186 LCs used as DFF only
 Info: Packing carries..
-Info:        4 LCs used as CARRY only
+Info:       36 LCs used as CARRY only
 Info: Packing indirect carry+LUT pairs...
-Info:        1 LUTs merged into carry LCs
+Info:       23 LUTs merged into carry LCs
 Info: Packing RAMs..
 Info: Placing PLLs..
 Info: Packing special functions..
 Info: Packing PLLs..
 Info: Promoting globals..
-Info: promoting clk$SB_IO_IN (fanout 293)
-Info: promoting uch.self_tx_start_SB_LUT4_I1_O[0] [reset] (fanout 25)
-Info: promoting uch.nl2tx_flag_SB_LUT4_I2_O_SB_LUT4_O_I3_SB_LUT4_O_I0_SB_LUT4_O_2_I2[3] [reset] (fanout 16)
-Info: promoting uch.self_tx_start_SB_LUT4_I1_O_SB_LUT4_I3_O [cen] (fanout 16)
+Info: promoting clk$SB_IO_IN (fanout 356)
+Info: promoting uch.nl2tx_flag_SB_LUT4_I2_O[0] [reset] (fanout 25)
+Info: promoting S_SB_DFFSR_Q_R [reset] (fanout 17)
+Info: promoting umc.SS_SB_DFFESR_Q_1_D_SB_LUT4_O_I2_SB_LUT4_O_I3[0] [reset] (fanout 17)
+Info: promoting uch.echo_en_SB_DFFE_Q_D[3] [reset] (fanout 16)
+Info: promoting uch.nl2tx_flag_SB_DFFE_Q_E_SB_LUT4_I3_O [cen] (fanout 16)
 Info: Constraining chains...
-Info:       15 LCs used to legalise carry chains.
-Info: Checksum: 0xb00aa6f6
+Info:       24 LCs used to legalise carry chains.
+Info: Checksum: 0xca4b4e84
 
 Info: Device utilisation:
-Info: 	         ICESTORM_LC:     541/   1280    42%
+Info: 	         ICESTORM_LC:     767/   1280    59%
 Info: 	        ICESTORM_RAM:       1/     16     6%
 Info: 	               SB_IO:       3/    112     2%
-Info: 	               SB_GB:       4/      8    50%
+Info: 	               SB_GB:       6/      8    75%
 Info: 	        ICESTORM_PLL:       0/      1     0%
 Info: 	         SB_WARMBOOT:       0/      1     0%
 
 Info: Placed 3 cells based on constraints.
-Info: Creating initial analytic placement for 440 cells, random placement wirelen = 6632.
-Info:     at initial placer iter 0, wirelen = 59
-Info:     at initial placer iter 1, wirelen = 98
-Info:     at initial placer iter 2, wirelen = 39
-Info:     at initial placer iter 3, wirelen = 81
-Info: Running main analytical placer, max placement attempts per cell = 37675.
-Info:     at iteration #1, type ALL: wirelen solved = 39, spread = 1685, legal = 2439; time = 0.01s
-Info:     at iteration #2, type ALL: wirelen solved = 71, spread = 1717, legal = 2127; time = 0.01s
-Info:     at iteration #3, type ALL: wirelen solved = 158, spread = 1511, legal = 2002; time = 0.01s
-Info:     at iteration #4, type ALL: wirelen solved = 275, spread = 1437, legal = 1967; time = 0.01s
-Info:     at iteration #5, type ALL: wirelen solved = 274, spread = 1346, legal = 1915; time = 0.01s
-Info:     at iteration #6, type ALL: wirelen solved = 280, spread = 1311, legal = 1905; time = 0.01s
-Info:     at iteration #7, type ALL: wirelen solved = 407, spread = 1298, legal = 1869; time = 0.01s
-Info:     at iteration #8, type ALL: wirelen solved = 376, spread = 1247, legal = 1945; time = 0.01s
-Info:     at iteration #9, type ALL: wirelen solved = 455, spread = 1247, legal = 1805; time = 0.01s
-Info:     at iteration #10, type ALL: wirelen solved = 495, spread = 1184, legal = 1811; time = 0.01s
-Info:     at iteration #11, type ALL: wirelen solved = 475, spread = 1257, legal = 1864; time = 0.01s
-Info:     at iteration #12, type ALL: wirelen solved = 529, spread = 1306, legal = 1750; time = 0.01s
-Info:     at iteration #13, type ALL: wirelen solved = 557, spread = 1199, legal = 1845; time = 0.01s
-Info:     at iteration #14, type ALL: wirelen solved = 638, spread = 1184, legal = 1793; time = 0.01s
-Info:     at iteration #15, type ALL: wirelen solved = 641, spread = 1207, legal = 1639; time = 0.01s
-Info:     at iteration #16, type ALL: wirelen solved = 649, spread = 1196, legal = 1784; time = 0.01s
-Info:     at iteration #17, type ALL: wirelen solved = 640, spread = 1179, legal = 1738; time = 0.01s
-Info:     at iteration #18, type ALL: wirelen solved = 698, spread = 1261, legal = 1709; time = 0.01s
-Info:     at iteration #19, type ALL: wirelen solved = 714, spread = 1179, legal = 1726; time = 0.01s
-Info:     at iteration #20, type ALL: wirelen solved = 630, spread = 1194, legal = 1710; time = 0.01s
-Info: HeAP Placer Time: 0.22s
+Info: Creating initial analytic placement for 626 cells, random placement wirelen = 9344.
+Info:     at initial placer iter 0, wirelen = 116
+Info:     at initial placer iter 1, wirelen = 126
+Info:     at initial placer iter 2, wirelen = 150
+Info:     at initial placer iter 3, wirelen = 94
+Info: Running main analytical placer, max placement attempts per cell = 75466.
+Info:     at iteration #1, type ALL: wirelen solved = 136, spread = 2933, legal = 3398; time = 0.01s
+Info:     at iteration #2, type ALL: wirelen solved = 118, spread = 2506, legal = 3232; time = 0.01s
+Info:     at iteration #3, type ALL: wirelen solved = 133, spread = 2616, legal = 3291; time = 0.01s
+Info:     at iteration #4, type ALL: wirelen solved = 298, spread = 2358, legal = 3083; time = 0.01s
+Info:     at iteration #5, type ALL: wirelen solved = 372, spread = 2469, legal = 3163; time = 0.01s
+Info:     at iteration #6, type ALL: wirelen solved = 486, spread = 2328, legal = 2997; time = 0.01s
+Info:     at iteration #7, type ALL: wirelen solved = 569, spread = 2269, legal = 2969; time = 0.01s
+Info:     at iteration #8, type ALL: wirelen solved = 553, spread = 2179, legal = 3155; time = 0.01s
+Info:     at iteration #9, type ALL: wirelen solved = 670, spread = 2167, legal = 2917; time = 0.01s
+Info:     at iteration #10, type ALL: wirelen solved = 693, spread = 2151, legal = 2929; time = 0.01s
+Info:     at iteration #11, type ALL: wirelen solved = 806, spread = 2159, legal = 2916; time = 0.01s
+Info:     at iteration #12, type ALL: wirelen solved = 854, spread = 2152, legal = 3091; time = 0.01s
+Info:     at iteration #13, type ALL: wirelen solved = 894, spread = 2207, legal = 3214; time = 0.01s
+Info:     at iteration #14, type ALL: wirelen solved = 967, spread = 2131, legal = 2996; time = 0.01s
+Info:     at iteration #15, type ALL: wirelen solved = 923, spread = 1946, legal = 2850; time = 0.01s
+Info:     at iteration #16, type ALL: wirelen solved = 990, spread = 1970, legal = 2722; time = 0.01s
+Info:     at iteration #17, type ALL: wirelen solved = 997, spread = 1953, legal = 3166; time = 0.01s
+Info:     at iteration #18, type ALL: wirelen solved = 1064, spread = 1943, legal = 2678; time = 0.01s
+Info:     at iteration #19, type ALL: wirelen solved = 1137, spread = 1935, legal = 2502; time = 0.01s
+Info:     at iteration #20, type ALL: wirelen solved = 1110, spread = 1945, legal = 2546; time = 0.01s
+Info:     at iteration #21, type ALL: wirelen solved = 1133, spread = 1935, legal = 3390; time = 0.01s
+Info:     at iteration #22, type ALL: wirelen solved = 1161, spread = 1954, legal = 2619; time = 0.01s
+Info:     at iteration #23, type ALL: wirelen solved = 1162, spread = 1958, legal = 2689; time = 0.01s
+Info:     at iteration #24, type ALL: wirelen solved = 1213, spread = 1973, legal = 2693; time = 0.01s
+Info: HeAP Placer Time: 0.30s
 Info:   of which solving equations: 0.14s
-Info:   of which spreading cells: 0.01s
-Info:   of which strict legalisation: 0.04s
+Info:   of which spreading cells: 0.02s
+Info:   of which strict legalisation: 0.09s
 
 Info: Running simulated annealing placer for refinement.
-Info:   at iteration #1: temp = 0.000000, timing cost = 113, wirelen = 1639
-Info:   at iteration #5: temp = 0.000000, timing cost = 121, wirelen = 1330
-Info:   at iteration #10: temp = 0.000000, timing cost = 96, wirelen = 1250
-Info:   at iteration #15: temp = 0.000000, timing cost = 143, wirelen = 1207
-Info:   at iteration #16: temp = 0.000000, timing cost = 139, wirelen = 1200 
-Info: SA placement time 0.14s
+Info:   at iteration #1: temp = 0.000000, timing cost = 168, wirelen = 2502
+Info:   at iteration #5: temp = 0.000000, timing cost = 126, wirelen = 2197
+Info:   at iteration #10: temp = 0.000000, timing cost = 124, wirelen = 2084
+Info:   at iteration #15: temp = 0.000000, timing cost = 157, wirelen = 1996
+Info:   at iteration #20: temp = 0.000000, timing cost = 156, wirelen = 1942
+Info:   at iteration #23: temp = 0.000000, timing cost = 159, wirelen = 1929 
+Info: SA placement time 0.30s
 
-Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 77.50 MHz (PASS at 48.00 MHz)
+Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 64.50 MHz (PASS at 48.00 MHz)
 
-Info: Max delay <async>                       -> posedge clk$SB_IO_IN_$glb_clk: 2.54 ns
-Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 5.38 ns
+Info: Max delay <async>                       -> posedge clk$SB_IO_IN_$glb_clk: 2.37 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 5.60 ns
 
 Info: Slack histogram:
 Info:  legend: * represents 2 endpoint(s)
 Info:          + represents [1,2) endpoint(s)
-Info: [  7930,   8512) |*****+
-Info: [  8512,   9094) |***+
-Info: [  9094,   9676) |******+
-Info: [  9676,  10258) |**+
-Info: [ 10258,  10840) |**********+
-Info: [ 10840,  11422) |********+
-Info: [ 11422,  12004) |**********+
-Info: [ 12004,  12586) |****************+
-Info: [ 12586,  13168) |*******+
-Info: [ 13168,  13750) |*************************+
-Info: [ 13750,  14332) |******************** 
-Info: [ 14332,  14914) |******************************************+
-Info: [ 14914,  15496) |*******************+
-Info: [ 15496,  16078) |*******************************************+
-Info: [ 16078,  16660) |*********************************+
-Info: [ 16660,  17242) |********************************+
-Info: [ 17242,  17824) |************************************************************ 
-Info: [ 17824,  18406) |******************+
-Info: [ 18406,  18988) |*****************************************************+
-Info: [ 18988,  19570) |*********+
-Info: Checksum: 0xe445c146
+Info: [  5330,   6038) |***+
+Info: [  6038,   6746) |******+
+Info: [  6746,   7454) |******+
+Info: [  7454,   8162) |*+
+Info: [  8162,   8870) |****+
+Info: [  8870,   9578) |***********+
+Info: [  9578,  10286) |*******************+
+Info: [ 10286,  10994) |*****************+
+Info: [ 10994,  11702) |*************+
+Info: [ 11702,  12410) |************ 
+Info: [ 12410,  13118) |*****************+
+Info: [ 13118,  13826) |*************************+
+Info: [ 13826,  14534) |**********************************+
+Info: [ 14534,  15242) |************************+
+Info: [ 15242,  15950) |*****************************+
+Info: [ 15950,  16658) |***********************************+
+Info: [ 16658,  17366) |**********************************************+
+Info: [ 17366,  18074) |*****************************************************+
+Info: [ 18074,  18782) |************************************************************ 
+Info: [ 18782,  19490) |*+
+Info: Checksum: 0xaf35cc21
 
 Info: Routing..
 Info: Setting up routing queue.
-Info: Routing 1584 arcs.
+Info: Routing 2226 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
-Info:       1000 |      177        809 |  177   809 |       790|       0.08       0.08|
-Info:       1939 |      293       1557 |  116   748 |         0|       0.06       0.14|
+Info:       1000 |      242        733 |  242   733 |      1524|       0.10       0.10|
+Info:       2000 |      510       1432 |  268   699 |       838|       0.09       0.19|
+Info:       3000 |      775       2100 |  265   668 |       180|       0.07       0.26|
+Info:       3252 |      839       2289 |   64   189 |         0|       0.03       0.29|
 Info: Routing complete.
-Info: Router1 time 0.14s
-Info: Checksum: 0x992092ed
+Info: Router1 time 0.29s
+Info: Checksum: 0x1a49d5ee
 
 Info: Critical path report for clock 'clk$SB_IO_IN_$glb_clk' (posedge -> posedge):
 Info:       type curr  total name
-Info:   clk-to-q  0.80  0.80 Source uch.ueu.rbuf[3]_SB_DFFE_Q_1_DFFLC.O
-Info:    routing  0.87  1.66 Net uch.ueu.rbuf[3][6] (9,6) -> (9,6)
-Info:                          Sink uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.I1
-Info:      logic  0.59  2.25 Source uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.O
-Info:    routing  0.87  3.12 Net uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_I2[1] (9,6) -> (9,6)
-Info:                          Sink uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_LC.I2
+Info:   clk-to-q  0.80  0.80 Source uch.ueu.rbuf[2]_SB_DFFE_Q_1_DFFLC.O
+Info:    routing  1.88  2.67 Net uch.ueu.rbuf[2][6] (2,5) -> (4,3)
+Info:                          Sink uch.ueu.tx_data_SB_DFFESR_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.I2
+Info:      logic  0.56  3.23 Source uch.ueu.tx_data_SB_DFFESR_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.O
+Info:    routing  0.87  4.10 Net uch.ueu.tx_data_SB_DFFESR_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I2[1] (4,3) -> (4,3)
+Info:                          Sink uch.ueu.tx_data_SB_DFFESR_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_LC.I2
 Info:                          Defined in:
 Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:      logic  0.56  3.68 Source uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:    routing  0.87  4.54 Net uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3[0] (9,6) -> (8,6)
-Info:                          Sink uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_I2_LC.I2
+Info:      logic  0.56  4.66 Source uch.ueu.tx_data_SB_DFFESR_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:    routing  0.87  5.52 Net uch.ueu.tx_data_SB_DFFESR_Q_6_D_SB_LUT4_O_I3[0] (4,3) -> (4,3)
+Info:                          Sink uch.ueu.tx_data_SB_DFFESR_Q_3_D_SB_LUT4_O_I3_SB_LUT4_O_1_LC.I2
 Info:                          Defined in:
 Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:      logic  0.56  5.10 Source uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_I2_LC.O
-Info:    routing  1.41  6.51 Net uch.ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_I2_O[2] (8,6) -> (8,3)
-Info:                          Sink uch.ueu.tx_start_SB_LUT4_I1_O_SB_LUT4_O_1_I0_SB_LUT4_O_1_LC.I3
+Info:      logic  0.56  6.08 Source uch.ueu.tx_data_SB_DFFESR_Q_3_D_SB_LUT4_O_I3_SB_LUT4_O_1_LC.O
+Info:    routing  1.33  7.41 Net uch.ueu.tx_data_SB_DFFESR_Q_3_D_SB_LUT4_O_I3[2] (4,3) -> (2,3)
+Info:                          Sink uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_CARRY_CI_CO_SB_LUT4_I3_O_SB_LUT4_O_I3_SB_LUT4_O_LC.I3
 Info:                          Defined in:
 Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:      logic  0.47  6.98 Source uch.ueu.tx_start_SB_LUT4_I1_O_SB_LUT4_O_1_I0_SB_LUT4_O_1_LC.O
-Info:    routing  0.87  7.85 Net uch.ueu.tx_start_SB_LUT4_I1_O_SB_LUT4_O_1_I0[2] (8,3) -> (8,3)
-Info:                          Sink uch.ueu.tx_start_SB_LUT4_I1_O_SB_LUT4_O_1_LC.I3
+Info:      logic  0.47  7.88 Source uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_CARRY_CI_CO_SB_LUT4_I3_O_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:    routing  0.87  8.75 Net uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_CARRY_CI_CO_SB_LUT4_I3_O_SB_LUT4_O_I3[3] (2,3) -> (2,4)
+Info:                          Sink uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_CARRY_CI_CO_SB_LUT4_I3_O_SB_LUT4_O_LC.I3
 Info:                          Defined in:
 Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:      logic  0.47  8.31 Source uch.ueu.tx_start_SB_LUT4_I1_O_SB_LUT4_O_1_LC.O
-Info:    routing  0.87  9.18 Net uch.ueu.ctrl_S_SB_DFFESR_Q_E_SB_LUT4_O_1_I2[2] (8,3) -> (8,2)
-Info:                          Sink uch.ueu.tx_start_SB_DFFE_Q_D_SB_LUT4_O_I3_SB_LUT4_O_LC.I2
+Info:      logic  0.47  9.21 Source uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_CARRY_CI_CO_SB_LUT4_I3_O_SB_LUT4_O_LC.O
+Info:    routing  0.87  10.08 Net uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_I1[2] (2,4) -> (2,5)
+Info:                          Sink uch.ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I3_SB_LUT4_O_LC.I3
 Info:                          Defined in:
 Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:      logic  0.56  9.74 Source uch.ueu.tx_start_SB_DFFE_Q_D_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:    routing  0.87  10.60 Net uch.ueu.tx_start_SB_DFFE_Q_D_SB_LUT4_O_I1[3] (8,2) -> (8,2)
-Info:                          Sink uch.ueu.tx_start_SB_DFFE_Q_D_SB_LUT4_O_I3_SB_LUT4_I3_LC.I3
+Info:      logic  0.47  10.54 Source uch.ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:    routing  0.87  11.41 Net uch.ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I3[2] (2,5) -> (2,6)
+Info:                          Sink uch.ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I3_SB_LUT4_I2_LC.I2
 Info:                          Defined in:
 Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:      logic  0.47  11.07 Source uch.ueu.tx_start_SB_DFFE_Q_D_SB_LUT4_O_I3_SB_LUT4_I3_LC.O
-Info:    routing  2.38  13.45 Net uch.ueu.tx_start_SB_DFFE_Q_D_SB_LUT4_O_I3_SB_LUT4_I3_O (8,2) -> (9,1)
-Info:                          Sink uch.ueu.line_len_SB_DFFESR_Q_D_SB_LUT4_O_LC.CEN
-Info:      setup  0.10  13.55 Source uch.ueu.line_len_SB_DFFESR_Q_D_SB_LUT4_O_LC.CEN
-Info: 4.55 ns logic, 9.00 ns routing
+Info:      logic  0.56  11.97 Source uch.ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I3_SB_LUT4_I2_LC.O
+Info:    routing  0.87  12.84 Net uch.ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I3_SB_LUT4_I2_O[3] (2,6) -> (2,6)
+Info:                          Sink uch.echo_en_SB_LUT4_I1_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  13.30 Source uch.echo_en_SB_LUT4_I1_LC.O
+Info:    routing  2.70  16.00 Net uch.ueu.line_len_SB_DFFESR_Q_E (2,6) -> (1,5)
+Info:                          Sink uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_LC.CEN
+Info:      setup  0.10  16.10 Source uch.ueu.line_len_SB_DFFESR_Q_1_D_SB_LUT4_O_LC.CEN
+Info: 4.99 ns logic, 11.12 ns routing
 
 Info: Critical path report for cross-domain path '<async>' -> 'posedge clk$SB_IO_IN_$glb_clk':
 Info:       type curr  total name
 Info:     source  0.00  0.00 Source RX$sb_io.D_IN_0
-Info:    routing  1.89  1.89 Net RX$SB_IO_IN (7,17) -> (7,12)
+Info:    routing  1.89  1.89 Net RX$SB_IO_IN (7,17) -> (8,15)
 Info:                          Sink RX_SB_LUT4_I3_LC.I3
 Info:                          Defined in:
 Info:                               ../../lib/uart/uart_rx.v:30.8-30.10
@@ -169,46 +183,46 @@ Info: 0.50 ns logic, 1.89 ns routing
 
 Info: Critical path report for cross-domain path 'posedge clk$SB_IO_IN_$glb_clk' -> '<async>':
 Info:       type curr  total name
-Info:   clk-to-q  0.80  0.80 Source uch.utx.tx_state_SB_DFFESR_Q_3_D_SB_LUT4_O_LC.O
-Info:    routing  1.41  2.21 Net uch.utx.tx_state[3] (6,8) -> (6,10)
-Info:                          Sink TX_SB_LUT4_O_LC.I1
+Info:   clk-to-q  0.80  0.80 Source uch.utx.tx_shift_SB_DFFE_Q_6_D_SB_LUT4_O_LC.O
+Info:    routing  1.41  2.21 Net uch.utx.tx_shift[0] (2,8) -> (2,10)
+Info:                          Sink TX_SB_LUT4_O_LC.I3
 Info:                          Defined in:
-Info:                               ../../lib/uart/uart_tx.v:47.11-47.19
-Info:      logic  0.59  2.80 Source TX_SB_LUT4_O_LC.O
-Info:    routing  1.96  4.76 Net TX$SB_IO_OUT (6,10) -> (6,17)
+Info:                               ../../lib/uart/uart_tx.v:48.11-48.19
+Info:      logic  0.47  2.67 Source TX_SB_LUT4_O_LC.O
+Info:    routing  2.43  5.10 Net TX$SB_IO_OUT (2,10) -> (6,17)
 Info:                          Sink TX$sb_io.D_OUT_0
 Info:                          Defined in:
 Info:                               ../../lib/uart/uart_tx.v:30.13-30.15
-Info: 1.38 ns logic, 3.38 ns routing
+Info: 1.26 ns logic, 3.84 ns routing
 
-Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 73.78 MHz (PASS at 48.00 MHz)
+Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 62.09 MHz (PASS at 48.00 MHz)
 
 Info: Max delay <async>                       -> posedge clk$SB_IO_IN_$glb_clk: 2.38 ns
-Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 4.76 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 5.10 ns
 
 Info: Slack histogram:
-Info:  legend: * represents 1 endpoint(s)
-Info:          + represents [1,1) endpoint(s)
-Info: [  7279,   7869) |********+
-Info: [  7869,   8459) |*+
-Info: [  8459,   9049) |*+
-Info: [  9049,   9639) |*********+
-Info: [  9639,  10229) |********+
-Info: [ 10229,  10819) |************+
-Info: [ 10819,  11409) |*****************+
-Info: [ 11409,  11999) |****+
-Info: [ 11999,  12589) |*********+
-Info: [ 12589,  13179) |******************+
-Info: [ 13179,  13769) |*************+
-Info: [ 13769,  14359) |**************+
-Info: [ 14359,  14949) |**********************************+
-Info: [ 14949,  15539) |*****************************************************+
-Info: [ 15539,  16129) |******************************************+
-Info: [ 16129,  16719) |***********************+
-Info: [ 16719,  17309) |************************************+
-Info: [ 17309,  17899) |**************************************************+
-Info: [ 17899,  18489) |************************************************************ 
-Info: [ 18489,  19079) |*************************************+
+Info:  legend: * represents 2 endpoint(s)
+Info:          + represents [1,2) endpoint(s)
+Info: [  4728,   5426) |***********+
+Info: [  5426,   6124) | 
+Info: [  6124,   6822) |*+
+Info: [  6822,   7520) |*** 
+Info: [  7520,   8218) |*+
+Info: [  8218,   8916) |*+
+Info: [  8916,   9614) |***************+
+Info: [  9614,  10312) |************+
+Info: [ 10312,  11010) |**************+
+Info: [ 11010,  11708) |****************+
+Info: [ 11708,  12406) |*************** 
+Info: [ 12406,  13104) |**********+
+Info: [ 13104,  13802) |*************+
+Info: [ 13802,  14500) |******************************+
+Info: [ 14500,  15198) |****************************+
+Info: [ 15198,  15896) |****************************************** 
+Info: [ 15896,  16594) |*************************************+
+Info: [ 16594,  17292) |******************************************+
+Info: [ 17292,  17990) |****************************************************+
+Info: [ 17990,  18688) |************************************************************ 
 1 warning, 0 errors
 
 Info: Program finished normally.

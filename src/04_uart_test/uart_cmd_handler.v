@@ -56,7 +56,7 @@ input rst;
 input RX;
 output reg TX;
 
-output reg cmd_valid = 1;
+output reg cmd_valid = 0;
 output reg [log2(LEN-1):0] cmd_len = 0;
 input msg_valid;
 input [log2(LEN-1):0] msg_len;
@@ -226,12 +226,16 @@ always @(posedge clk) begin
                 end
             end
             S_Rp: begin
+                rx_line_len <= 0;
                 S <= S_R;
+                
             end
             S_R: begin
                 if (rx_ready) begin
                     if (echo_rx_data == 8'h08) begin
-                        rx_line_len <= rx_line_len - 1;
+                        if (rx_line_len != 0) begin
+                            rx_line_len <= rx_line_len - 1;
+                        end
                     end
                     else begin
                         addr <= rx_line_len;
@@ -251,11 +255,10 @@ always @(posedge clk) begin
             end
             S_Rf: begin
                 cmd_len <= rx_line_len - 1;
-                if (echo_idle && ~echo_tx_busy && ~echo_tx_start) begin
+                if (echo_idle) begin
                     echo_en <= 0;
                     cmd_valid <= 1;
 
-                    rx_line_len <= 0;
                     S <= S_NL;
                 end
             end
