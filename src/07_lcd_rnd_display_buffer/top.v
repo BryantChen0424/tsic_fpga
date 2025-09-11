@@ -97,16 +97,14 @@ bram #(WIDTH, LEN) mem (
 localparam RND_WIDTH = 8;
 
 reg rndg_en = 1;
-reg rndg_load_seed = 1;
-reg [RND_WIDTH-1:0] rndg_seed = 0;
+reg rndg_lock_seed = 0;
 wire [RND_WIDTH-1:0] rndg_rnd;
 
 rnd_gen #(RND_WIDTH) rndg (
     .clk(clk),
     .rst_n(reset),
     .en(rndg_en),        
-    .load_seed(rndg_load_seed), 
-    .seed(rndg_seed),      
+    .lock_seed(rndg_lock_seed),    
     .rnd(rndg_rnd)        
 );
 
@@ -125,7 +123,7 @@ wire [WIDTH-1:0] u_din;
 reg [WIDTH-1:0] u_dout;
 wire u_we;
 
-display_buf_updater #(LEN, WIDTH, X_MAX, Y_MAX) dbu (
+display_buf_updater #(LEN, WIDTH, X_MAX, Y_MAX, RND_WIDTH) dbu (
     .clk(clk),
     .rst_n(reset),
 
@@ -137,7 +135,7 @@ display_buf_updater #(LEN, WIDTH, X_MAX, Y_MAX) dbu (
     .dout(u_dout),
     .we(u_we),
 
-    .digits_sel(digits_sel)
+    .rnd(rndg_rnd)
 );
 
 always @(*) begin
@@ -158,7 +156,6 @@ end
 
 always @(posedge clk) begin
     if (~reset) begin
-        digits_sel <= 0;
         seed_flag <= 0;
 
         S <= S_DISPLAY;
@@ -180,23 +177,20 @@ always @(posedge clk) begin
                     };
                 end
                 if (rx_ready && ~seed_flag) begin
-                    digits_sel <= (rndg_seed * 10) >> 8;
-                    rndg_load_seed <= 1;
+                    rndg_lock_seed <= 1;
                     u_update <= 1;
                     S <= S_UPDATE;
                 end
                 else if (rx_ready && seed_flag) begin
-                    digits_sel <= (rndg_rnd * 10) >> 8;
                     u_update <= 1;
                     S <= S_UPDATE;
                 end
                 else begin
-                    rndg_load_seed <= 0;
+                    rndg_lock_seed <= 0;
                 end
             end
         endcase
 
-        rndg_seed <= rndg_seed + 1;
         seed_flag <= seed_flag | rx_ready;
     end
 end

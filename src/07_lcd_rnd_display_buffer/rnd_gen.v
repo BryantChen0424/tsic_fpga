@@ -20,7 +20,7 @@ module rnd_gen #(
     output reg  [WIDTH-1:0]     rnd         // current LFSR state (pseudo-random)
 );
     reg [WIDTH-1:0] s;
-
+    reg [WIDTH-1:0] seed = 0;
     reg [WIDTH-1:0] seed_nz;
 
     // Force a non-zero seed
@@ -30,9 +30,10 @@ module rnd_gen #(
     end
 
     always @(posedge clk) begin
+        seed <= seed + 1;
         if (!rst_n) begin
             s <= seed_nz;
-        end else if (load_seed) begin
+        end else if (lock_seed) begin
             s <= seed_nz;
         end else if (en) begin
             // Right shift by 1; if LSB==1, XOR with TAPS
