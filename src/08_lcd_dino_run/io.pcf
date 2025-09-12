@@ -1,0 +1,10 @@
+set_io clk D1
+set_io oled_cs B4 
+set_io oled_clk B1
+set_io oled_mosi B5
+set_io oled_dc E1
+set_io reset A1
+
+set_io LED B6
+set_io RX  A3
+set_io TX  B3

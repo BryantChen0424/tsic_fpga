@@ -49,18 +49,34 @@ input [RND_WIDTH-1:0] rnd;
 input rx_ready;
 input [7:0] rx_data;
 
-reg [15:0] digits_sel;
+reg dino_pose_sel = 0;
 reg [2:0] Suop = 0;
 reg [log2(X_MAX-1):0] ux;
 reg [log2(Y_MAX-1):0] uy;
 reg [WIDTH-1:0] pix_temp;
 
-// localparam CNT_BITS = 28;
-// reg [CNT_BITS-1:0] cnt = 0;
-// localparam INC = (1 << (CNT_BITS - 1)) / 12000000;
+localparam GROUND_Y = 0;
+localparam GROUND_H = 20;
+
+localparam DINO_X = 20;
+localparam DINO_Y = 20;
+localparam DINO_W = 16;
+localparam DINO_H = 16;
+
+reg dino_mask;
+reg ground_mask;
+
+localparam CNT_BITS = 28;
+reg [CNT_BITS-1:0] cnt = 0;
+localparam INC = (1 << (CNT_BITS - 1)) / 2400000;
+
+always @(*) begin
+    dino_mask = (uy >= DINO_Y && uy < (DINO_Y+DINO_H)) && (ux >= DINO_X && ux < (DINO_X+DINO_W));
+    ground_mask = uy < (GROUND_Y+GROUND_H);
+end
 
 always @(posedge clk) begin
-    // cnt <= cnt[CNT_BITS-1] ? 0 : cnt + INC;
+    cnt <= cnt[CNT_BITS-1] ? 0 : cnt + INC;
     if (~rst_n) begin
         Suop <= 0;
     end
@@ -76,19 +92,28 @@ always @(posedge clk) begin
                 end
             end
             1: begin
-                addr <= uy[6:3] * 20 + ux[7:3] + digits_sel * 200 + SRC_BASE;
-                // addr <= uy * 160 + ux;
+                if (dino_mask) begin
+                    addr <= (uy-DINO_Y) * DINO_W + (ux-DINO_X) + dino_pose_sel * (DINO_W*DINO_H) + SRC_BASE;
+                end
+                else if (ground_mask) begin
+                    addr <= uy * X_MAX + ((ux == X_MAX-1) ? 0 : ux + 1);
+                end
                 Suop <= Suop + 1;
             end
             2: begin
                 Suop <= Suop + 1;
             end
             3: begin
-                pix_temp <= dout;
+                if (dino_mask || ground_mask) begin
+                    pix_temp <= dout;
+                end
+                else begin
+                    pix_temp <= 0;
+                end
                 Suop <= Suop + 1;
             end
             4: begin
-                addr <= uy * 160 + ux;
+                addr <= uy * X_MAX + ux;
                 din <= pix_temp;
                 we <= 1;
                 done <= 1;
@@ -97,12 +122,14 @@ always @(posedge clk) begin
                     {pix_temp, 2'b0},
                     {pix_temp, 1'b0}
                 };
+                // done_color <= 16'hffff;
+                
                 Suop <= 0;
             end
         endcase
     end
-    if (rx_ready/* || cnt[CNT_BITS-1]*/) begin
-        digits_sel <= rnd[2:0];
+    if (cnt[CNT_BITS-1]) begin
+        dino_pose_sel <= ~dino_pose_sel;
     end
 end
 

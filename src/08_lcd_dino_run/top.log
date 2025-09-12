@@ -1,0 +1,390 @@
+Info: constrained 'clk' to bel 'X0/Y8/io1'
+Info: constrained 'oled_cs' to bel 'X13/Y9/io0'
+Info: constrained 'oled_clk' to bel 'X0/Y13/io1'
+Info: constrained 'oled_mosi' to bel 'X13/Y11/io0'
+Info: constrained 'oled_dc' to bel 'X0/Y8/io0'
+Info: constrained 'reset' to bel 'X0/Y13/io0'
+Warning: unmatched constraint 'LED' (on line 8)
+Info: constrained 'RX' to bel 'X7/Y17/io0'
+Info: constrained 'TX' to bel 'X6/Y17/io1'
+
+Info: Packing constants..
+Info: Packing IOs..
+Info: Packing LUT-FFs..
+Info:      447 LCs used as LUT4 only
+Info:      222 LCs used as LUT4 and DFF
+Info: Packing non-LUT FFs..
+Info:      134 LCs used as DFF only
+Info: Packing carries..
+Info:       30 LCs used as CARRY only
+Info: Packing indirect carry+LUT pairs...
+Info:        2 LUTs merged into carry LCs
+Info: Packing RAMs..
+Info: Placing PLLs..
+Info: Packing special functions..
+Info: Packing PLLs..
+Info: Promoting globals..
+Info: promoting clk$SB_IO_IN (fanout 310)
+Info: promoting oled_clk$SB_IO_OUT (fanout 76)
+Info: promoting dbu.cnt[27] [reset] (fanout 28)
+Info: promoting driver.cmd_selector_SB_DFFNE_Q_2_D_SB_LUT4_O_I1[0] [reset] (fanout 25)
+Info: promoting ueu._b_SB_DFFE_Q_E_SB_LUT4_O_I3[1] [reset] (fanout 16)
+Info: promoting driver.wait_time_SB_DFFNESR_Q_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I3_O_SB_LUT4_I3_O [cen] (fanout 25)
+Info: promoting driver.enable_SB_DFFE_Q_E_SB_LUT4_I3_O [cen] (fanout 24)
+Info: Constraining chains...
+Info:       32 LCs used to legalise carry chains.
+Info: Checksum: 0xf601c433
+
+Info: Device utilisation:
+Info: 	         ICESTORM_LC:     865/   1280    67%
+Info: 	        ICESTORM_RAM:      15/     16    93%
+Info: 	               SB_IO:       8/    112     7%
+Info: 	               SB_GB:       7/      8    87%
+Info: 	        ICESTORM_PLL:       0/      1     0%
+Info: 	         SB_WARMBOOT:       0/      1     0%
+
+Info: Placed 8 cells based on constraints.
+Info: Creating initial analytic placement for 672 cells, random placement wirelen = 10532.
+Info:     at initial placer iter 0, wirelen = 111
+Info:     at initial placer iter 1, wirelen = 137
+Info:     at initial placer iter 2, wirelen = 153
+Info:     at initial placer iter 3, wirelen = 127
+Info: Running main analytical placer, max placement attempts per cell = 100128.
+Info:     at iteration #1, type ICESTORM_LC: wirelen solved = 272, spread = 3107, legal = 3476; time = 0.01s
+Info:     at iteration #1, type SB_GB: wirelen solved = 3450, spread = 3480, legal = 3506; time = 0.00s
+Info:     at iteration #1, type ICESTORM_RAM: wirelen solved = 3326, spread = 3934, legal = 4075; time = 0.00s
+Info:     at iteration #1, type ALL: wirelen solved = 161, spread = 3417, legal = 4044; time = 0.01s
+Info:     at iteration #2, type ICESTORM_LC: wirelen solved = 1228, spread = 3803, legal = 4502; time = 0.01s
+Info:     at iteration #2, type SB_GB: wirelen solved = 4471, spread = 4495, legal = 4515; time = 0.00s
+Info:     at iteration #2, type ICESTORM_RAM: wirelen solved = 4121, spread = 4220, legal = 4507; time = 0.00s
+Info:     at iteration #2, type ALL: wirelen solved = 228, spread = 3173, legal = 3896; time = 0.01s
+Info:     at iteration #3, type ICESTORM_LC: wirelen solved = 1413, spread = 3346, legal = 3899; time = 0.01s
+Info:     at iteration #3, type SB_GB: wirelen solved = 3851, spread = 3876, legal = 3904; time = 0.00s
+Info:     at iteration #3, type ICESTORM_RAM: wirelen solved = 3546, spread = 3701, legal = 3950; time = 0.00s
+Info:     at iteration #3, type ALL: wirelen solved = 304, spread = 3051, legal = 3812; time = 0.01s
+Info:     at iteration #4, type ICESTORM_LC: wirelen solved = 1379, spread = 3370, legal = 3894; time = 0.01s
+Info:     at iteration #4, type SB_GB: wirelen solved = 3854, spread = 3880, legal = 3893; time = 0.00s
+Info:     at iteration #4, type ICESTORM_RAM: wirelen solved = 3685, spread = 3836, legal = 4073; time = 0.00s
+Info:     at iteration #4, type ALL: wirelen solved = 372, spread = 2963, legal = 3698; time = 0.01s
+Info:     at iteration #5, type ICESTORM_LC: wirelen solved = 1387, spread = 3286, legal = 3811; time = 0.01s
+Info:     at iteration #5, type SB_GB: wirelen solved = 3773, spread = 3808, legal = 3829; time = 0.00s
+Info:     at iteration #5, type ICESTORM_RAM: wirelen solved = 3424, spread = 3695, legal = 3861; time = 0.00s
+Info:     at iteration #5, type ALL: wirelen solved = 419, spread = 2903, legal = 3834; time = 0.01s
+Info:     at iteration #6, type ICESTORM_LC: wirelen solved = 1492, spread = 3149, legal = 3651; time = 0.01s
+Info:     at iteration #6, type SB_GB: wirelen solved = 3621, spread = 3647, legal = 3667; time = 0.00s
+Info:     at iteration #6, type ICESTORM_RAM: wirelen solved = 2946, spread = 3507, legal = 3701; time = 0.00s
+Info:     at iteration #6, type ALL: wirelen solved = 420, spread = 2910, legal = 3720; time = 0.01s
+Info:     at iteration #7, type ICESTORM_LC: wirelen solved = 1550, spread = 2902, legal = 3468; time = 0.01s
+Info:     at iteration #7, type SB_GB: wirelen solved = 3410, spread = 3432, legal = 3454; time = 0.00s
+Info:     at iteration #7, type ICESTORM_RAM: wirelen solved = 2842, spread = 3332, legal = 3472; time = 0.00s
+Info:     at iteration #7, type ALL: wirelen solved = 519, spread = 2754, legal = 3553; time = 0.01s
+Info:     at iteration #8, type ICESTORM_LC: wirelen solved = 1563, spread = 2816, legal = 3323; time = 0.01s
+Info:     at iteration #8, type SB_GB: wirelen solved = 3294, spread = 3317, legal = 3359; time = 0.00s
+Info:     at iteration #8, type ICESTORM_RAM: wirelen solved = 2707, spread = 3251, legal = 3399; time = 0.00s
+Info:     at iteration #8, type ALL: wirelen solved = 526, spread = 2671, legal = 3677; time = 0.01s
+Info:     at iteration #9, type ICESTORM_LC: wirelen solved = 1488, spread = 2816, legal = 3262; time = 0.01s
+Info:     at iteration #9, type SB_GB: wirelen solved = 3228, spread = 3259, legal = 3275; time = 0.00s
+Info:     at iteration #9, type ICESTORM_RAM: wirelen solved = 3032, spread = 3219, legal = 3395; time = 0.00s
+Info:     at iteration #9, type ALL: wirelen solved = 560, spread = 2686, legal = 3749; time = 0.01s
+Info:     at iteration #10, type ICESTORM_LC: wirelen solved = 1590, spread = 2887, legal = 3506; time = 0.01s
+Info:     at iteration #10, type SB_GB: wirelen solved = 3487, spread = 3507, legal = 3522; time = 0.00s
+Info:     at iteration #10, type ICESTORM_RAM: wirelen solved = 2926, spread = 3388, legal = 3572; time = 0.00s
+Info:     at iteration #10, type ALL: wirelen solved = 577, spread = 2669, legal = 3599; time = 0.01s
+Info:     at iteration #11, type ICESTORM_LC: wirelen solved = 1617, spread = 2743, legal = 3503; time = 0.01s
+Info:     at iteration #11, type SB_GB: wirelen solved = 3464, spread = 3498, legal = 3505; time = 0.00s
+Info:     at iteration #11, type ICESTORM_RAM: wirelen solved = 2984, spread = 3406, legal = 3617; time = 0.00s
+Info:     at iteration #11, type ALL: wirelen solved = 610, spread = 2691, legal = 3606; time = 0.01s
+Info:     at iteration #12, type ICESTORM_LC: wirelen solved = 1597, spread = 2798, legal = 3475; time = 0.01s
+Info:     at iteration #12, type SB_GB: wirelen solved = 3455, spread = 3486, legal = 3504; time = 0.00s
+Info:     at iteration #12, type ICESTORM_RAM: wirelen solved = 3108, spread = 3369, legal = 3520; time = 0.00s
+Info:     at iteration #12, type ALL: wirelen solved = 652, spread = 2692, legal = 3809; time = 0.01s
+Info: HeAP Placer Time: 0.41s
+Info:   of which solving equations: 0.27s
+Info:   of which spreading cells: 0.02s
+Info:   of which strict legalisation: 0.07s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 292, wirelen = 3553
+Info:   at iteration #5: temp = 0.000000, timing cost = 265, wirelen = 2953
+Info:   at iteration #10: temp = 0.000000, timing cost = 243, wirelen = 2731
+Info:   at iteration #15: temp = 0.000000, timing cost = 277, wirelen = 2578
+Info:   at iteration #20: temp = 0.000000, timing cost = 274, wirelen = 2500
+Info:   at iteration #25: temp = 0.000000, timing cost = 268, wirelen = 2444
+Info:   at iteration #26: temp = 0.000000, timing cost = 258, wirelen = 2443 
+Info: SA placement time 0.49s
+
+Info: Max frequency for clock 'oled_clk$SB_IO_OUT_$glb_clk': 79.27 MHz (PASS at 48.00 MHz)
+Info: Max frequency for clock       'clk$SB_IO_IN_$glb_clk': 74.26 MHz (PASS at 48.00 MHz)
+
+Info: Max delay <async>                             -> posedge clk$SB_IO_IN_$glb_clk      : 2.71 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk       -> <async>                            : 4.12 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk       -> negedge oled_clk$SB_IO_OUT_$glb_clk: 5.94 ns
+Info: Max delay negedge oled_clk$SB_IO_OUT_$glb_clk -> <async>                            : 3.36 ns
+Info: Max delay negedge oled_clk$SB_IO_OUT_$glb_clk -> posedge clk$SB_IO_IN_$glb_clk      : 7.78 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 4 endpoint(s)
+Info:          + represents [1,4) endpoint(s)
+Info: [  7367,   7961) |**+
+Info: [  7961,   8555) |****+
+Info: [  8555,   9149) |****+
+Info: [  9149,   9743) |*******+
+Info: [  9743,  10337) |*******+
+Info: [ 10337,  10931) |**+
+Info: [ 10931,  11525) |***+
+Info: [ 11525,  12119) |**+
+Info: [ 12119,  12713) |***+
+Info: [ 12713,  13307) |***********+
+Info: [ 13307,  13901) |******************+
+Info: [ 13901,  14495) |*************+
+Info: [ 14495,  15089) |****************+
+Info: [ 15089,  15683) |************+
+Info: [ 15683,  16277) |*******************+
+Info: [ 16277,  16871) |**************+
+Info: [ 16871,  17465) |*************+
+Info: [ 17465,  18059) |***********************************************+
+Info: [ 18059,  18653) |************************************************************ 
+Info: [ 18653,  19247) |**************+
+Info: Checksum: 0xda8c400f
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 3041 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |      235        742 |  235   742 |      2300|       0.10       0.10|
+Info:       2000 |      817       1133 |  582   391 |      1946|       0.12       0.22|
+Info:       3000 |     1084       1802 |  267   669 |      1285|       0.09       0.31|
+Info:       4000 |     1343       2488 |  259   686 |       617|       0.11       0.42|
+Info:       4872 |     1551       3143 |  208   655 |         0|       0.11       0.53|
+Info: Routing complete.
+Info: Router1 time 0.53s
+Info: Checksum: 0xafeca6f8
+
+Info: Critical path report for clock 'oled_clk$SB_IO_OUT_$glb_clk' (negedge -> negedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.80  0.80 Source driver.x_SB_DFFNE_Q_2_D_SB_LUT4_O_LC.O
+Info:    routing  0.87  1.66 Net x[5] (5,1) -> (4,2)
+Info:                          Sink $nextpnr_ICESTORM_LC_5.I1
+Info:                          Defined in:
+Info:                               ./top.v:62.12-62.13
+Info:      logic  0.38  2.04 Source $nextpnr_ICESTORM_LC_5.COUT
+Info:    routing  0.00  2.04 Net $nextpnr_ICESTORM_LC_5$O (4,2) -> (4,2)
+Info:                          Sink pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO_CI_SB_CARRY_CO$CARRY.CIN
+Info:      logic  0.19  2.23 Source pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO_CI_SB_CARRY_CO$CARRY.COUT
+Info:    routing  0.00  2.23 Net pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO_CI (4,2) -> (4,2)
+Info:                          Sink pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO$CARRY.CIN
+Info:                          Defined in:
+Info:                               ./st7735.v:336.17-336.33
+Info:                               /usr/local/bin/../share/yosys/ice40/arith_map.v:62.5-70.4
+Info:                               /usr/local/bin/../share/yosys/ice40/abc9_model.v:4.9-4.11
+Info:      logic  0.19  2.42 Source pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO$CARRY.COUT
+Info:    routing  0.38  2.80 Net $nextpnr_ICESTORM_LC_6$I3 (4,2) -> (4,2)
+Info:                          Sink $nextpnr_ICESTORM_LC_6.I3
+Info:      logic  0.47  3.26 Source $nextpnr_ICESTORM_LC_6.O
+Info:    routing  0.87  4.13 Net pre_next_pixel_SB_LUT4_I3_I2 (4,2) -> (5,3)
+Info:                          Sink driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_I2_LC.I1
+Info:                          Defined in:
+Info:                               ./st7735.v:336.17-336.33
+Info:                               /usr/local/bin/../share/yosys/ice40/arith_map.v:62.5-70.4
+Info:                               /usr/local/bin/../share/yosys/ice40/abc9_model.v:4.9-4.11
+Info:      logic  0.59  4.72 Source driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_I2_LC.O
+Info:    routing  0.87  5.59 Net driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_O_I0[0] (5,3) -> (5,2)
+Info:                          Sink driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_O_I3_SB_CARRY_CO_CI_SB_CARRY_CO_CI_SB_CARRY_CO_CI_SB_LUT4_I3_LC.I0
+Info:                          Defined in:
+Info:                               ./st7735.v:339.24-339.29
+Info:                               /usr/local/bin/../share/yosys/ice40/arith_map.v:62.5-70.4
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.66  6.25 Source driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_O_I3_SB_CARRY_CO_CI_SB_CARRY_CO_CI_SB_CARRY_CO_CI_SB_LUT4_I3_LC.O
+Info:    routing  0.87  7.11 Net driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_O_I3_SB_CARRY_CO_CI_SB_CARRY_CO_CI_SB_CARRY_CO_CI_SB_LUT4_I3_O[0] (5,2) -> (5,1)
+Info:                          Sink driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_I2_O_SB_LUT4_O_LC.I0
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.66  7.78 Source driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_I2_O_SB_LUT4_O_LC.O
+Info:    routing  0.87  8.64 Net driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_I2_O[3] (5,1) -> (6,2)
+Info:                          Sink driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_I2_O_SB_LUT4_I1_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  9.11 Source driver.y_SB_DFFNE_Q_6_D_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_I0_O_SB_LUT4_I2_O_SB_LUT4_I1_LC.O
+Info:    routing  0.87  9.97 Net driver.next_pixel_SB_DFFNE_Q_E_SB_LUT4_O_I0[1] (6,2) -> (5,3)
+Info:                          Sink driver.state_SB_DFFNE_Q_E_SB_LUT4_O_I2_SB_LUT4_O_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  10.44 Source driver.state_SB_DFFNE_Q_E_SB_LUT4_O_I2_SB_LUT4_O_LC.O
+Info:    routing  0.87  11.31 Net driver.state_SB_DFFNE_Q_E_SB_LUT4_O_I2[3] (5,3) -> (5,3)
+Info:                          Sink driver.next_pixel_SB_DFFNE_Q_E_SB_LUT4_O_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  11.77 Source driver.next_pixel_SB_DFFNE_Q_E_SB_LUT4_O_LC.O
+Info:    routing  2.38  14.16 Net driver.next_pixel_SB_DFFNE_Q_E (5,3) -> (5,4)
+Info:                          Sink driver.next_pixel_SB_DFFNE_Q_DFFLC.CEN
+Info:      setup  0.10  14.26 Source driver.next_pixel_SB_DFFNE_Q_DFFLC.CEN
+Info: 5.42 ns logic, 8.84 ns routing
+
+Info: Critical path report for clock 'clk$SB_IO_IN_$glb_clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.80  0.80 Source ueu._b_SB_DFFE_Q_2_D_SB_LUT4_O_LC.O
+Info:    routing  1.33  2.13 Net ueu._b[0] (9,13) -> (11,13)
+Info:                          Sink ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  2.59 Source ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.O
+Info:    routing  0.87  3.46 Net ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_I2[1] (11,13) -> (11,13)
+Info:                          Sink ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_LC.I2
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.56  4.02 Source ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:    routing  1.66  5.68 Net ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3[1] (11,13) -> (8,13)
+Info:                          Sink ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_I3_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  6.14 Source ueu.tx_data_SB_DFFESR_Q_7_D_SB_LUT4_O_I3_SB_LUT4_I3_LC.O
+Info:    routing  0.87  7.01 Net ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I0_SB_LUT4_I0_O_SB_LUT4_O_1_I3[2] (8,13) -> (7,13)
+Info:                          Sink ueu.tx_data_SB_DFFESR_Q_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_1_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  7.48 Source ueu.tx_data_SB_DFFESR_Q_D_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_1_LC.O
+Info:    routing  0.87  8.34 Net ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I0[3] (7,13) -> (7,13)
+Info:                          Sink ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I2_SB_LUT4_I0_LC.I2
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.56  8.90 Source ueu.ctrl_S_SB_DFFESR_Q_1_D_SB_LUT4_O_I2_SB_LUT4_I0_LC.O
+Info:    routing  0.87  9.77 Net ueu._b_SB_DFFE_Q_E_SB_LUT4_O_I3_SB_LUT4_I3_O_SB_LUT4_I3_O[3] (7,13) -> (7,14)
+Info:                          Sink ueu._b_SB_DFFE_Q_E_SB_LUT4_O_I3_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I1_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  10.23 Source ueu._b_SB_DFFE_Q_E_SB_LUT4_O_I3_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I1_LC.O
+Info:    routing  2.85  13.08 Net ueu._b_SB_DFFE_Q_E_SB_LUT4_O_I3_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I1_O (7,14) -> (6,13)
+Info:                          Sink ueu.tx_data_SB_DFFESR_Q_3_D_SB_LUT4_O_LC.CEN
+Info:      setup  0.10  13.18 Source ueu.tx_data_SB_DFFESR_Q_3_D_SB_LUT4_O_LC.CEN
+Info: 3.87 ns logic, 9.31 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge clk$SB_IO_IN_$glb_clk':
+Info:       type curr  total name
+Info:     source  0.00  0.00 Source RX$sb_io.D_IN_0
+Info:    routing  2.36  2.36 Net RX$SB_IO_IN (7,17) -> (9,12)
+Info:                          Sink RX_SB_LUT4_I3_LC.I3
+Info:                          Defined in:
+Info:                               ../../lib/uart/uart_rx.v:30.8-30.10
+Info:      setup  0.50  2.86 Source RX_SB_LUT4_I3_LC.I3
+Info: 0.50 ns logic, 2.36 ns routing
+
+Info: Critical path report for cross-domain path 'posedge clk$SB_IO_IN_$glb_clk' -> '<async>':
+Info:       type curr  total name
+Info:   clk-to-q  0.80  0.80 Source utx.tx_state_SB_DFFESR_Q_2_D_SB_LUT4_O_LC.O
+Info:    routing  1.41  2.21 Net utx.tx_state[2] (6,14) -> (5,15)
+Info:                          Sink TX_SB_LUT4_O_LC.I2
+Info:                          Defined in:
+Info:                               ../../lib/uart/uart_tx.v:47.11-47.19
+Info:      logic  0.56  2.77 Source TX_SB_LUT4_O_LC.O
+Info:    routing  1.41  4.18 Net TX$SB_IO_OUT (5,15) -> (6,17)
+Info:                          Sink TX$sb_io.D_OUT_0
+Info:                          Defined in:
+Info:                               ../../lib/uart/uart_tx.v:30.13-30.15
+Info: 1.35 ns logic, 2.83 ns routing
+
+Info: Critical path report for cross-domain path 'posedge clk$SB_IO_IN_$glb_clk' -> 'negedge oled_clk$SB_IO_OUT_$glb_clk':
+Info:       type curr  total name
+Info:   clk-to-q  0.80  0.80 Source driver.advertise_pixel_consume_buffer_SB_LUT4_I3_LC.O
+Info:    routing  0.87  1.66 Net driver.advertise_pixel_consume_buffer_SB_LUT4_I3_O_SB_DFF_D_Q[0] (7,7) -> (6,6)
+Info:                          Sink driver.color_valid_SB_LUT4_I2_LC.I1
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.59  2.25 Source driver.color_valid_SB_LUT4_I2_LC.O
+Info:    routing  0.87  3.12 Net driver.color_valid_SB_LUT4_I2_O[1] (6,6) -> (6,5)
+Info:                          Sink driver.current_byte_pos_SB_LUT4_I1_O_SB_LUT4_O_1_LC.I2
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.56  3.68 Source driver.current_byte_pos_SB_LUT4_I1_O_SB_LUT4_O_1_LC.O
+Info:    routing  0.87  4.54 Net driver.current_byte_pos_SB_LUT4_I1_O[3] (6,5) -> (6,4)
+Info:                          Sink driver.state_SB_DFFNE_Q_E_SB_LUT4_O_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  5.01 Source driver.state_SB_DFFNE_Q_E_SB_LUT4_O_LC.O
+Info:    routing  2.47  7.47 Net driver.state_SB_DFFNE_Q_E (6,4) -> (5,3)
+Info:                          Sink driver.state_SB_DFFNESR_Q_R_SB_LUT4_I1_LC.CEN
+Info:      setup  0.10  7.57 Source driver.state_SB_DFFNESR_Q_R_SB_LUT4_I1_LC.CEN
+Info: 2.51 ns logic, 5.07 ns routing
+
+Info: Critical path report for cross-domain path 'negedge oled_clk$SB_IO_OUT_$glb_clk' -> '<async>':
+Info:       type curr  total name
+Info:   clk-to-q  0.80  0.80 Source driver.oled_dc_SB_DFFNSR_Q_D_SB_LUT4_O_LC.O
+Info:    routing  2.35  3.15 Net oled_dc$SB_IO_OUT (7,4) -> (0,8)
+Info:                          Sink oled_dc$sb_io.D_OUT_0
+Info:                          Defined in:
+Info:                               ./top.v:10.17-10.24
+Info: 0.80 ns logic, 2.35 ns routing
+
+Info: Critical path report for cross-domain path 'negedge oled_clk$SB_IO_OUT_$glb_clk' -> 'posedge clk$SB_IO_IN_$glb_clk':
+Info:       type curr  total name
+Info:   clk-to-q  0.80  0.80 Source driver.x_SB_DFFNE_Q_2_D_SB_LUT4_O_LC.O
+Info:    routing  0.87  1.66 Net x[5] (5,1) -> (4,2)
+Info:                          Sink $nextpnr_ICESTORM_LC_5.I1
+Info:                          Defined in:
+Info:                               ./top.v:62.12-62.13
+Info:      logic  0.38  2.04 Source $nextpnr_ICESTORM_LC_5.COUT
+Info:    routing  0.00  2.04 Net $nextpnr_ICESTORM_LC_5$O (4,2) -> (4,2)
+Info:                          Sink pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO_CI_SB_CARRY_CO$CARRY.CIN
+Info:      logic  0.19  2.23 Source pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO_CI_SB_CARRY_CO$CARRY.COUT
+Info:    routing  0.00  2.23 Net pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO_CI (4,2) -> (4,2)
+Info:                          Sink pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO$CARRY.CIN
+Info:                          Defined in:
+Info:                               ./st7735.v:336.17-336.33
+Info:                               /usr/local/bin/../share/yosys/ice40/arith_map.v:62.5-70.4
+Info:                               /usr/local/bin/../share/yosys/ice40/abc9_model.v:4.9-4.11
+Info:      logic  0.19  2.42 Source pre_next_pixel_SB_LUT4_I3_I2_SB_CARRY_CO$CARRY.COUT
+Info:    routing  0.38  2.80 Net $nextpnr_ICESTORM_LC_6$I3 (4,2) -> (4,2)
+Info:                          Sink $nextpnr_ICESTORM_LC_6.I3
+Info:      logic  0.47  3.26 Source $nextpnr_ICESTORM_LC_6.O
+Info:    routing  1.88  5.14 Net pre_next_pixel_SB_LUT4_I3_I2 (4,2) -> (6,5)
+Info:                          Sink pre_next_pixel_SB_LUT4_I3_LC.I2
+Info:                          Defined in:
+Info:                               ./st7735.v:336.17-336.33
+Info:                               /usr/local/bin/../share/yosys/ice40/arith_map.v:62.5-70.4
+Info:                               /usr/local/bin/../share/yosys/ice40/abc9_model.v:4.9-4.11
+Info:      logic  0.56  5.70 Source pre_next_pixel_SB_LUT4_I3_LC.O
+Info:    routing  0.87  6.57 Net S_SB_DFFSR_Q_D_SB_LUT4_O_I3[2] (6,5) -> (5,6)
+Info:                          Sink u_update_SB_DFFESR_Q_E_SB_LUT4_O_LC.I3
+Info:                          Defined in:
+Info:                               /usr/local/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:      logic  0.47  7.03 Source u_update_SB_DFFESR_Q_E_SB_LUT4_O_LC.O
+Info:    routing  2.70  9.74 Net u_update_SB_DFFESR_Q_E (5,6) -> (5,7)
+Info:                          Sink u_update_SB_DFFESR_Q_D_SB_LUT4_O_LC.CEN
+Info:      setup  0.10  9.84 Source u_update_SB_DFFESR_Q_D_SB_LUT4_O_LC.CEN
+Info: 3.14 ns logic, 6.70 ns routing
+
+Info: Max frequency for clock 'oled_clk$SB_IO_OUT_$glb_clk': 70.15 MHz (PASS at 48.00 MHz)
+Info: Max frequency for clock       'clk$SB_IO_IN_$glb_clk': 75.86 MHz (PASS at 48.00 MHz)
+
+Info: Max delay <async>                             -> posedge clk$SB_IO_IN_$glb_clk      : 2.86 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk       -> <async>                            : 4.18 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk       -> negedge oled_clk$SB_IO_OUT_$glb_clk: 7.57 ns
+Info: Max delay negedge oled_clk$SB_IO_OUT_$glb_clk -> <async>                            : 3.15 ns
+Info: Max delay negedge oled_clk$SB_IO_OUT_$glb_clk -> posedge clk$SB_IO_IN_$glb_clk      : 9.84 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 3 endpoint(s)
+Info:          + represents [1,3) endpoint(s)
+Info: [  6577,   7202) |+
+Info: [  7202,   7827) |****+
+Info: [  7827,   8452) |+
+Info: [  8452,   9077) |*****+
+Info: [  9077,   9702) |********+
+Info: [  9702,  10327) |*******+
+Info: [ 10327,  10952) |********+
+Info: [ 10952,  11577) |************+
+Info: [ 11577,  12202) |**+
+Info: [ 12202,  12827) |**********+
+Info: [ 12827,  13452) |******************+
+Info: [ 13452,  14077) |****************+
+Info: [ 14077,  14702) |***************+
+Info: [ 14702,  15327) |*************************+
+Info: [ 15327,  15952) |**************************************************+
+Info: [ 15952,  16577) |**********************+
+Info: [ 16577,  17202) |*****************************************+
+Info: [ 17202,  17827) |************************************************************ 
+Info: [ 17827,  18452) |*************************************+
+Info: [ 18452,  19077) |**********************************************+
+1 warning, 0 errors
+
+Info: Program finished normally.
