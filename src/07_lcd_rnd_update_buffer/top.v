@@ -110,8 +110,8 @@ rnd_gen #(RND_WIDTH) rndg (
 
 reg [15:0] digits_sel = 0;
 
-localparam S_UPDATE = 0;
-localparam S_DISPLAY = 1;
+localparam S_DISPLAY    = 0;
+localparam S_UPDATE    = 1;
 
 reg S = S_DISPLAY;
 
@@ -122,76 +122,67 @@ wire [log2(LEN-1):0] u_addr;
 wire [WIDTH-1:0] u_din;
 reg [WIDTH-1:0] u_dout;
 wire u_we;
+reg [7:0] u_x;
+reg [6:0] u_y;
+wire [15:0] u_color;
 
 display_buf_updater #(LEN, WIDTH, X_MAX, Y_MAX, RND_WIDTH) dbu (
     .clk(clk),
     .rst_n(reset),
 
     .update(u_update),
+    .update_x(u_x),
+    .update_y(u_y),
     .done(u_done),
+    .done_color(u_color),
 
     .addr(u_addr),
     .din(u_din),
     .dout(u_dout),
     .we(u_we),
 
-    .rnd(rndg_rnd)
+    .rnd(rndg_rnd),
+    .rx_ready(rx_ready),
+    .rx_data(rx_data)
 );
 
 always @(*) begin
     u_dout = dout;
-    case (S)
-        S_UPDATE: begin
-            addr = u_addr;
-            din = u_din;
-            we = u_we;
-        end 
-        S_DISPLAY: begin
-            addr = y * 160 + x;
-            din = 0;
-            we = 0;
-        end
-    endcase
+    addr = u_addr;
+    din = u_din;
+    we = u_we;
 end
 
 always @(posedge clk) begin
     if (~reset) begin
         seed_flag <= 0;
-
         S <= S_DISPLAY;
     end
     else begin
         case (S)
+            S_DISPLAY: begin
+                if (next_pixel) begin
+                    u_x <= x;
+                    u_y <= y;
+                    u_update <= 1;
+                    S <= S_UPDATE;
+                end
+            end
             S_UPDATE: begin
                 u_update <= 0;
+                color <= u_color;
                 if (u_done) begin
                     S <= S_DISPLAY;
                 end
             end
-            S_DISPLAY: begin
-                if (next_pixel) begin
-                    color <= {
-                        {dout, 1'b0},
-                        {dout, 2'b0},
-                        {dout, 1'b0}
-                    };
-                end
-                if (rx_ready && ~seed_flag) begin
-                    rndg_lock_seed <= 1;
-                    u_update <= 1;
-                    S <= S_UPDATE;
-                end
-                else if (rx_ready && seed_flag) begin
-                    u_update <= 1;
-                    S <= S_UPDATE;
-                end
-                else begin
-                    rndg_lock_seed <= 0;
-                end
-            end
         endcase
-
-        seed_flag <= seed_flag | rx_ready;
+        if (rx_data && ~seed_flag) begin
+            seed_flag <= 1;
+            rndg_lock_seed <= 1;
+        end
+        else begin
+            rndg_lock_seed <= 0;
+        end
     end
 end
 

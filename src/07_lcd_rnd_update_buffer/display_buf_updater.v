@@ -9,14 +9,19 @@ module display_buf_updater #(
     rst_n,
 
     update,
+    update_x,
+    update_y,
     done,
+    done_color,
 
     addr,
     din,
     dout,
     we,
 
-    rnd
+    rnd,
+    rx_ready,
+    rx_data
 );
 
 localparam SRC_BASE = X_MAX * Y_MAX;
@@ -30,7 +35,10 @@ input clk;
 input rst_n;
 
 input update;
+input [log2(X_MAX-1):0] update_x;
+input [log2(Y_MAX-1):0] update_y;
 output reg done = 0;
+output reg [15:0] done_color;
 
 output reg [log2(LEN-1):0] addr;
 output reg [WIDTH-1:0] din;
@@ -38,54 +46,63 @@ input [WIDTH-1:0] dout;
 output reg we = 0;
 
 input [RND_WIDTH-1:0] rnd;
+input rx_ready;
+input [7:0] rx_data;
 
 reg [15:0] digits_sel;
 reg [2:0] Suop = 0;
-reg [7:0] ux;
-reg [6:0] uy;
+reg [log2(X_MAX-1):0] ux;
+reg [log2(Y_MAX-1):0] uy;
 reg [WIDTH-1:0] pix_temp;
 
+// localparam CNT_BITS = 28;
+// reg [CNT_BITS-1:0] cnt = 0;
+// localparam INC = (1 << (CNT_BITS - 1)) / 12000000;
+
 always @(posedge clk) begin
+    // cnt <= cnt[CNT_BITS-1] ? 0 : cnt + INC;
     if (~rst_n) begin
         Suop <= 0;
     end
-    else if (update) begin
-        uy <= 0;
-        ux <= 0;
-        Suop <= 0;
-        digits_sel <= (rnd * 10) >> 8;
-    end
     else begin
-        done <= 0;
         case (Suop)
             0: begin
-                if (uy == Y_MAX) begin
-                    uy <= 0;
-                    ux <= 0;
-                    done <= 1;
-                end
-                else begin
-                    addr <= uy[6:3] * 20 + ux[7:3] + digits_sel * 200 + SRC_BASE;
-                    we <= 0;
-                    Suop <= Suop + 1;
+                we <= 0;
+                done <= 0;
+                uy <= update_y;
+                ux <= update_x;
+                if (update) begin
+                    Suop <= 1;
                 end
             end
             1: begin
+                addr <= uy[6:3] * 20 + ux[7:3] + digits_sel * 200 + SRC_BASE;
+                // addr <= uy * 160 + ux;
                 Suop <= Suop + 1;
             end
             2: begin
-                pix_temp <= dout;
                 Suop <= Suop + 1;
             end
             3: begin
+                pix_temp <= dout;
+                Suop <= Suop + 1;
+            end
+            4: begin
                 addr <= uy * 160 + ux;
                 din <= pix_temp;
-                we <= 1;
-                ux <= (ux == X_MAX - 1) ? 0 : ux + 1;
-                uy <= (ux == X_MAX - 1) ? uy + 1: uy;
+                we <= 0;
+                done <= 1;
+                done_color <= {
+                    {pix_temp, 1'b0},
+                    {pix_temp, 2'b0},
+                    {pix_temp, 1'b0}
+                };
                 Suop <= 0;
             end
         endcase
+    end
+    if (rx_ready/* || cnt[CNT_BITS-1]*/) begin
+        digits_sel <= (rnd * 10) >> 8;
     end
 end
 

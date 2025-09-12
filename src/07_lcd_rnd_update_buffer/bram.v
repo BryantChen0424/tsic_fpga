@@ -25,6 +25,9 @@ reg [WIDTH-1:0] mem [0:LEN-1];
 integer i;
 
 initial begin
+    for (i = 0; i < 12800; i = i + 1) begin
+        mem[i] <= i % 16;
+    end
     $readmemb("bram.mem", mem);
 end
 
