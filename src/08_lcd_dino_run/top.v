@@ -79,9 +79,9 @@ st7735  driver (
     .reset(reset)
 );
 
-localparam SRC_BASE = X_MAX * Y_MAX;
-localparam WIDTH = 4;
-localparam LEN = SRC_BASE + 2000;
+localparam SCREEN_SIZE = X_MAX * Y_MAX;
+localparam WIDTH = 1;
+localparam LEN = SCREEN_SIZE + 8000;
 
 reg [log2(LEN-1):0] addr;
 reg [WIDTH-1:0] din;

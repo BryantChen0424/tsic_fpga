@@ -7,10 +7,11 @@ Supported pixel formats:
 - RGB565 : 16 bits  (bin: 16 chars; hex: 4 digits)
 - RGB332 : 8  bits  (bin: 8  chars; hex: 2 digits)
 - GREY4  : 4  bits  (bin: 4  chars; hex: 1 digit)
+- BIN1   : 1  bit   (bin: 1   char ; hex: 1 digit)  <-- NEW (binarized by threshold)
 
 Default:
-- width x height = 80 x 40
-- flip = auto (width>=height -> horizontal; else vertical)
+- width x height = 20 x 10
+- flip = none (choose h/v/none)
 - out = bin (use hex for $readmemh)
 """
 
@@ -31,19 +32,26 @@ def grey4_from_rgb888(r: int, g: int, b: int) -> int:
     y = int(0.299 * r + 0.587 * g + 0.114 * b + 0.5)
     return (y >> 4)  # 0..15
 
+def bin1_from_rgb888(r: int, g: int, b: int, thresh: int) -> int:
+    # BT.601 luma; return 1 if >= thresh else 0
+    y = int(0.299 * r + 0.587 * g + 0.114 * b + 0.5)
+    return 1 if y >= thresh else 0
+
 def fmt_value(val: int, bits: int, outfmt: str) -> str:
     if outfmt == "bin":
         return f"{val:0{bits}b}"
     elif outfmt == "hex":
-        # 4 bits -> 1 hex, 8 bits -> 2 hex, 16 bits -> 4 hex
-        return f"{val:0{bits//4}X}"
+        # ensure at least 1 hex digit (works even for bits=1)
+        digits = max(1, (bits + 3) // 4)
+        return f"{val:0{digits}X}"
     else:
         raise ValueError("out format must be 'bin' or 'hex'")
 
 def convert(input_path: str, output_path: str,
             width: int, height: int,
             pixfmt: str, outfmt: str,
-            flip_mode: str, resample=Image.NEAREST) -> None:
+            flip_mode: str, resample=Image.NEAREST,
+            thresh: int = 128) -> None:
 
     img = Image.open(input_path).convert("RGB").resize((width, height), resample=resample)
 
@@ -57,17 +65,21 @@ def convert(input_path: str, output_path: str,
     else:
         raise ValueError("flip must be one of: auto, none, h, v")
 
-    if pixfmt.upper() == "RGB565":
+    pf = pixfmt.upper()
+    if pf == "RGB565":
         bits = 16
-        conv = rgb565_from_rgb888
-    elif pixfmt.upper() == "RGB332":
+        def conv(r,g,b): return rgb565_from_rgb888(r,g,b)
+    elif pf == "RGB332":
         bits = 8
-        conv = rgb332_from_rgb888
-    elif pixfmt.upper() == "GREY4":
+        def conv(r,g,b): return rgb332_from_rgb888(r,g,b)
+    elif pf == "GREY4":
         bits = 4
-        conv = grey4_from_rgb888
+        def conv(r,g,b): return grey4_from_rgb888(r,g,b)
+    elif pf == "BIN1":
+        bits = 1
+        def conv(r,g,b): return bin1_from_rgb888(r,g,b, thresh)
     else:
-        raise ValueError("pixfmt must be one of: RGB565, RGB332, GREY4")
+        raise ValueError("pixfmt must be one of: RGB565, RGB332, GREY4, BIN1")
 
     px = img.load()
     with open(output_path, "w", encoding="utf-8") as f:
@@ -83,14 +95,16 @@ if __name__ == "__main__":
     ap.add_argument("output", help="Output text file")
     ap.add_argument("--width", type=int, default=20, help="Target width (default: 20)")
     ap.add_argument("--height", type=int, default=10, help="Target height (default: 10)")
-    ap.add_argument("--pixfmt", choices=["RGB565", "RGB332", "GREY4"], default="RGB332",
+    ap.add_argument("--pixfmt", choices=["RGB565", "RGB332", "GREY4", "BIN1"], default="RGB332",
                     help="Pixel format (default: RGB332)")
     ap.add_argument("--out", choices=["bin", "hex"], default="bin",
                     help="Line format for file: bin for $readmemb, hex for $readmemh (default: bin)")
-    ap.add_argument("--flip", choices=["none", "h", "v"], default="auto",
+    ap.add_argument("--flip", choices=["none", "h", "v"], default="none",
                     help="Flip specify none/h/v (default: none)")
+    ap.add_argument("--thresh", type=int, default=128,
+                    help="Threshold for BIN1 (0..255, default: 128)")
     args = ap.parse_args()
 
     convert(args.input, args.output, args.width, args.height,
-            args.pixfmt, args.out, args.flip)
+            args.pixfmt, args.out, args.flip, thresh=args.thresh)
     print(f"Done: {args.output}")
