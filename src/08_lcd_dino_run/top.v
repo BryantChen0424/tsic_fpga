@@ -81,7 +81,7 @@ st7735  driver (
 
 localparam SCREEN_SIZE = X_MAX * Y_MAX;
 localparam WIDTH = 1;
-localparam LEN = SCREEN_SIZE + 8000;
+localparam LEN = SCREEN_SIZE + 3200;
 
 reg [log2(LEN-1):0] addr;
 reg [WIDTH-1:0] din;

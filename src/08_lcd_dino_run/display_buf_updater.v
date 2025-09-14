@@ -51,15 +51,15 @@ input [7:0] rx_data;
 
 reg dino_pose_sel = 0;
 reg [2:0] Suop = 0;
-reg [log2(X_MAX-1):0] ux;
-reg [log2(Y_MAX-1):0] uy;
+reg [log2(X_MAX-1)-1:0] ux;
+reg [log2(Y_MAX-1)-1:0] uy;
 reg [WIDTH-1:0] pix_temp;
 
 localparam GROUND_BASE = SCREEN_SIZE;
 localparam GROUND_Y = 0;
 localparam GROUND_H = 20;
 
-localparam DINO_BASE = SCREEN_SIZE + X_MAX*GROUND_H;
+localparam DINO_BASE = SCREEN_SIZE + 128*GROUND_H;
 localparam DINO_X = 5;
 localparam DINO_Y = 20;
 localparam DINO_W = 16;
@@ -72,7 +72,7 @@ reg ground_mask;
 
 localparam CNT_BITS = 24;
 localparam MS_INC = (1 << (CNT_BITS - 1)) / 12000;
-localparam MSS_BITS = 12;
+localparam MSS_BITS = 13;
 reg [CNT_BITS-1:0] ms_cnt = 0;
 reg ms_tick;
 reg [MSS_BITS-1:0] mss = 0;
@@ -83,10 +83,13 @@ reg dino_tick;
 // reg [CNT_BITS-1:0] dino_steps = 0;
 
 localparam GROUND_SPEED_MAX = 15;
-localparam FLOAT_BITS = 3;
+localparam FLOAT_BITS = 2;
 localparam GROUND_SPEED_BITS = log2(GROUND_SPEED_MAX) + FLOAT_BITS;
-reg [GROUND_SPEED_BITS:0] ground_speed = 4 << FLOAT_BITS;
-reg [GROUND_SPEED_BITS:0] ground_speed_cut_f;
+reg [GROUND_SPEED_BITS:0] ground_speed = 3 << FLOAT_BITS;
+reg [log2(X_MAX-1)-1:0] ground_speed_cut_f;
+
+reg [log2(X_MAX-1)-2:0] ground_dx = 0;
+reg [log2(X_MAX-1)-2:0] ground_px = 0;
 
 reg [5:0] dino_dy;
 reg jump_flag = 0;
@@ -103,6 +106,8 @@ always @(*) begin
     // dino_tick = dino_cnt[CNT_BITS-1];
     dino_tick = &mss[7:2] && ~|mss[1:0] && ms_tick;
     ground_speed_cut_f = ground_speed >> FLOAT_BITS;
+
+
 
     jump_tref = mss[9:7];
     dys_idx = jump_tref - jump_t0;
@@ -139,6 +144,13 @@ always @(posedge clk) begin
             // dino_inc     <= (dino_inc     < 671) ? dino_inc + (dino_inc >> FLOAT_BITS) : 671;
             ground_speed <= (ground_speed < GROUND_SPEED_MAX << FLOAT_BITS ) ? ground_speed + (ground_speed >> FLOAT_BITS) : GROUND_SPEED_MAX << FLOAT_BITS;
         end
+        
+        if (&mss[5:0] && ms_tick) begin
+            ground_dx <= ground_dx + ground_speed_cut_f;
+        end
+        // else begin
+        //     ground_dx <= (ground_dx >= X_MAX) ? ground_dx - X_MAX : ground_dx;
+        // end
         // update logic
         case (Suop)
             0: begin
@@ -146,6 +158,7 @@ always @(posedge clk) begin
                 done <= 0;
                 uy <= update_y;
                 ux <= update_x;
+                ground_px <= update_x + ground_dx;
                 if (update) begin
                     Suop <= 1;
                 end
@@ -155,17 +168,7 @@ always @(posedge clk) begin
                     addr <= (uy-(DINO_Y+dino_dy)) * DINO_W + (ux-DINO_X) + dino_pose_sel * (DINO_W*DINO_H) + DINO_BASE;
                 end
                 else if (ground_mask) begin
-                    if (init_flag) begin
-                        if (ux >= X_MAX - ground_speed_cut_f) begin
-                            addr <= uy * X_MAX + ux + ground_speed_cut_f - X_MAX;
-                        end
-                        else begin
-                            addr <= uy * X_MAX + ux + ground_speed_cut_f;
-                        end
-                    end
-                    else begin
-                        addr <= uy * X_MAX + ux + GROUND_BASE;
-                    end
+                    addr <= {uy, ground_px} + GROUND_BASE;
                 end
                 Suop <= Suop + 1;
             end

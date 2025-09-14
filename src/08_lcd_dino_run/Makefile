@@ -32,7 +32,7 @@ $(filename).json $(filename).blif: $(SOURCES)
 	yosys -p "\
 		read_verilog -defer $(SOURCES); \
 		hierarchy -top $(filename); \
-		synth_ice40 -top $(filename); \
+		synth_ice40 -top $(filename) -abc9 -dsp; \
 		write_json $(filename).json; \
 		write_blif $(filename).blif \
 	"
